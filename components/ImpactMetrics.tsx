@@ -1,145 +1,152 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
-const metrics = [
+const CARDS = [
   {
-    id: 1,
-    value: "84%",
-    text: "Clinical diagnoses arriving after measurable biochemical drift has already occurred.",
-    bgClass: "bg-[#B5C8D8]",
-    textClass: "text-cosmos"
+    stat: "84%",
+    copy: "Clinical diagnoses arriving after measurable biochemical drift has already occurred.",
+    bg: "#B8CAD8",
+    textColor: "#082230",
   },
   {
-    id: 2,
-    value: "100+",
-    text: "Days before symptoms appear, biochemical markers already start drifting from baseline.",
-    bgClass: "bg-[#9CB8D0]",
-    textClass: "text-cosmos"
+    stat: "100+",
+    copy: "Days before symptoms appear, biochemical markers already start drifting from baseline.",
+    bg: "#94ADBE",
+    textColor: "#082230",
   },
   {
-    id: 3,
-    value: "120+",
-    text: "Diagnostic molecular indicators are carried inside sweat, yet remains unused.",
-    bgClass: "bg-[#7192AB]",
-    textClass: "text-cosmos"
+    stat: "120+",
+    copy: "Mainstream wearables / everyday devices use these indicators.",
+    bg: "#6D8DA8",
+    textColor: "#082230",
   },
   {
-    id: 4,
-    value: "zero",
-    text: "Mainstream wearables / everyday devices use these indicators",
-    bgClass: "bg-[#0B151E]",
-    textClass: "text-white"
-  }
+    stat: "zero",
+    copy: "Mainstream wearables / everyday devices use these indicators.",
+    bg: "#082230",
+    textColor: "#ffffff",
+  },
 ];
 
-// Each of the first 3 cards occupies 1/3 of the viewport as its visible stripe
-const SLICE_DVH = 100 / 3; // ≈ 33.33dvh
+/**
+ * Custom quintic ease-in-out to simulate "75% Influence" in After Effects.
+ * This curve is extremely steep in the middle and very flat at the ends.
+ */
+const ease75 = (t: number) => {
+  if (t <= 0) return 0;
+  if (t >= 1) return 1;
+  return t < 0.5 
+    ? 16 * Math.pow(t, 5) 
+    : 1 - Math.pow(-2 * t + 2, 5) / 2;
+};
 
-const ImpactMetrics: React.FC = () => {
+interface ImpactMetricsProps {
+  scrollerRef?: React.RefObject<HTMLDivElement | null>;
+}
+
+export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-
+  
+  // Track scroll progress of the entire 400vh section
   const { scrollYProgress } = useScroll({
     target: containerRef,
+    container: scrollerRef || undefined,
     offset: ["start start", "end end"]
   });
 
-  // Push text content upward as the next card slides in
-  const y1 = useTransform(scrollYProgress, [0.15, 0.33], [0, -180]);
-  const y2 = useTransform(scrollYProgress, [0.33, 0.55], [0, -180]);
-  const y3 = useTransform(scrollYProgress, [0.55, 0.75], [0, -180]);
-
-  const transforms = [
-    { y: y1 },
-    { y: y2 },
-    { y: y3 },
-    { y: null },
-  ];
+  // Re-introducing a high-performance spring. 
+  // mass: 0.01 makes it react instantly to prevent 'lag' overlap,
+  // but it still filters out the 'stepping' jitter of raw scroll events.
+  const progress = useSpring(scrollYProgress, {
+    damping: 30,
+    stiffness: 400,
+    mass: 0.01,
+    restDelta: 0.001
+  });
 
   return (
-    /*
-      Layout:
-        4 sticky cards × 100dvh = 400dvh of snap points
-        Zero card is the 4th sticky at top:0 (covers all when scrolled to)
-        First 3 cards are sticky at 0, 33, 66dvh (equal thirds)
-        Extra 100dvh at end so zero "breathes" after covering all cards
-        Total = 500dvh
-    */
-    <section ref={containerRef} className="w-full relative bg-[#EFF1F1] h-[500dvh]">
-      {metrics.map((item, index) => {
-        const isLast = index === metrics.length - 1;
-        const currentTransform = transforms[index];
-        const sliceTopDvh = index * SLICE_DVH;
+    <div 
+      ref={containerRef} 
+      className="relative w-full" 
+      style={{ height: "400vh" }}
+    >
+      {CARDS.map((card, i) => {
+        const start = i * 0.25;
+        const end = (i + 1) * 0.25;
+        
+        // Local progress (0 to 1) for the current overlap phase
+        /* eslint-disable react-hooks/rules-of-hooks */
+        const rawOv = useTransform(progress, [start, end], [0, 1]);
+        const ov = useTransform(rawOv, (v) => ease75(v));
+
+        // Layout math matching the user's reference
+        const initialTop = i === 3 ? 50 : 50 - i * (100 / 6);
+        const pushUp = useTransform(ov, (v) => i === 3 ? 0 : v * (initialTop - (100 / 6)));
+        
+        const translateY = useTransform(pushUp, (p) => `calc(-50% - ${p}vh)`);
 
         return (
           <div
-            key={item.id}
-            className={`
-              sticky h-[100dvh] w-full snap-always snap-start
-              ${item.bgClass}
-              ${isLast ? 'overflow-hidden z-[50]' : 'overflow-visible'}
-            `}
+            key={i}
+            className="snap-start"
             style={{
-              top: isLast ? '0dvh' : `${sliceTopDvh}dvh`,
-              zIndex: isLast ? 50 : index,
+              position: "sticky",
+              top: i === 3 ? "0vh" : `${i * 33.333}vh`,
+              width: "100%",
+              height: "100vh",
+              zIndex: i + 1,
+              background: card.bg,
+              overflow: "hidden",
+              scrollSnapStop: "always",
             }}
           >
+            {/* Stat Number */}
             <motion.div
-              style={currentTransform.y ? { y: currentTransform.y } : {}}
-              className="w-full h-full relative"
+              style={{
+                position: "absolute",
+                left: 0,
+                top: `${initialTop}%`,
+                y: translateY,
+                paddingLeft: "2vw",
+                lineHeight: 0.9,
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
             >
-              {isLast ? (
-                /* ── Zero card: content vertically centered in the full 100dvh card ── */
-                <div className="w-full max-w-[1440px] px-gr-1 md:px-gr-2 lg:px-gr-3 3xl:px-gr-4 mx-auto h-full flex items-center justify-between">
-                  <div className="ml-[-4vw] md:ml-[-1vw] w-[50%] z-10">
-                    <h2
-                      className={`font-sans font-medium tracking-tighter leading-none ${item.textClass} opacity-90`}
-                      style={{ fontSize: "clamp(120px, 20vw, 250px)" }}
-                    >
-                      {item.value}
-                    </h2>
-                  </div>
-                  <div className="w-[50%] flex justify-end relative z-10">
-                    <div className="w-full md:w-[80%] flex justify-start">
-                      <p className={`font-sans font-medium text-body1 ${item.textClass} max-w-[320px] lg:max-w-[400px]`}>
-                        {item.text}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* ── Cards 1–3: content bottom-anchored to the visible stripe ──
-                   paddingBottom pushes content up so it sits just above the
-                   next card's dividing line. */
-                <div
-                  className="w-full max-w-[1440px] px-gr-1 md:px-gr-2 lg:px-gr-3 3xl:px-gr-4 mx-auto h-full flex justify-between items-end"
-                  style={{ paddingBottom: `${(SLICE_DVH * (metrics.length - 2 - index)) + 5}dvh` }}
-                >
-                  {/* Giant number — bleeds left and below into next card */}
-                  <div className="ml-[-4vw] md:ml-[-1vw] w-[50%] z-10">
-                    <h2
-                      className={`font-sans font-medium tracking-tighter leading-none ${item.textClass} opacity-90`}
-                      style={{ fontSize: "clamp(120px, 20vw, 250px)" }}
-                    >
-                      {item.value}
-                    </h2>
-                  </div>
+              <span
+                style={{
+                  fontFamily: "'Switzer', 'Inter', sans-serif",
+                  fontSize: "clamp(60px, 14vw, 180px)",
+                  fontWeight: 300,
+                  color: card.textColor,
+                  letterSpacing: "-0.03em",
+                  display: "block",
+                }}
+              >
+                {card.stat}
+              </span>
+            </motion.div>
 
-                  {/* Body text — right half */}
-                  <div className="w-[50%] flex justify-end relative z-10">
-                    <div className="w-full md:w-[80%] flex justify-start">
-                      <p className={`font-sans font-medium text-body1 ${item.textClass} max-w-[320px] lg:max-w-[400px]`}>
-                        {item.text}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
+            {/* Body Copy */}
+            <motion.div
+              style={{
+                position: "absolute",
+                left: "54%",
+                top: `${initialTop}%`,
+                y: translateY,
+                maxWidth: 280,
+              }}
+            >
+              <p
+                className="font-sans font-normal text-body1"
+                style={{ color: card.textColor }}
+              >
+                {card.copy}
+              </p>
             </motion.div>
           </div>
         );
       })}
-    </section>
+    </div>
   );
-};
-
-export default ImpactMetrics;
+}

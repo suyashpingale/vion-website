@@ -70,6 +70,13 @@
     }
   }
 
+  @media (min-width: 2560px) {
+    .text-h1 {
+      font-size: 144px;
+      line-height: 156px;
+    }
+  }
+
   /* H2 Titles (Switzer) */
   .text-h2 {
     font-size: 28px;
@@ -115,6 +122,13 @@
     .text-h2 {
       font-size: 64px;
       line-height: 74px;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    .text-h2 {
+      font-size: 80px;
+      line-height: 90px;
     }
   }
 
@@ -216,6 +230,7 @@
 }
 
 @theme inline {
+  --breakpoint-4xl: 2560px;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

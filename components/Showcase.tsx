@@ -44,20 +44,20 @@ const Showcase: React.FC = () => {
                 </div>
 
                 {/* Centered Text underneath the handshake */}
-                <div className="relative z-10 w-full max-w-3xl px-gr-1 flex flex-col items-center text-center mt-[25vh] md:mt-[15vh] xl:mt-[25vh]">
+                <div className="relative z-10 w-full max-w-3xl px-gr-1 flex flex-col items-center text-center mt-[55dvh] md:mt-[50dvh] xl:mt-[25vh]">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <p className="font-mono text-[10px] md:text-[14px] xl:text-body2 tracking-[0.2em] text-[#E5E5E5]/60 uppercase mb-6 md:mb-8 xl:mb-6 font-medium">
+                        <p className="font-mono text-[10px] md:text-[14px] xl:text-body2 tracking-[0.2em] text-[#090C12]/60 uppercase mb-6 md:mb-8 xl:mb-6 font-medium">
                             All Inclusive
                         </p>
-                        <h2 className="font-sans text-h2 text-white tracking-tight mb-6 md:mb-8">
+                        <h2 className="font-sans text-h2 text-[#090C12] tracking-tight mb-6 md:mb-8">
                             For everyone.
                         </h2>
-                        <p className="font-sans text-body1 text-[#F5F5F5]/90 max-w-[320px] md:max-w-[480px] font-medium mx-auto">
+                        <p className="font-sans text-body1 text-[#090C12]/90 max-w-[320px] md:max-w-[480px] font-medium mx-auto">
                             <span className="md:hidden">
                                 A flexible, breathable polyimide<br />
                                 architecture enables comfortable,<br />
@@ -78,7 +78,7 @@ const Showcase: React.FC = () => {
             </section>
 
             {/* 2. Selective Shield */}
-            <section className="bg-[#082230] min-h-[100dvh] w-full relative flex items-start pt-[20vh] md:pt-[25vh] lg:pt-[28vh] snap-start overflow-hidden">
+            <section className="bg-[#082230] min-h-[100dvh] w-full relative flex items-start pt-[10dvh] md:pt-[20vh] xl:pt-[28vh] snap-start overflow-hidden">
                 {/* Full Background Image */}
                 <div className="absolute inset-0 z-0 h-full w-full">
                     <ResponsivePicture
@@ -87,26 +87,26 @@ const Showcase: React.FC = () => {
                         mobileSrc={selectiveShieldMobile}
                         alt="Diver jumping into the ocean"
                         className="w-full h-full block"
-                        imgClassName="w-full h-full object-cover object-center transition-opacity duration-1000 ease-in-out"
+                        imgClassName="w-full h-full object-cover object-bottom xl:object-center transition-opacity duration-1000 ease-in-out"
                     />
                 </div>
 
                 {/* Text Container aligned to the left side per reference screenshot */}
-                <div className="w-full max-w-[1440px] mx-auto px-gr-1 md:px-gr-2 lg:px-gr-3 xl:px-gr-4 flex justify-start relative z-10">
+                <div className="w-full max-w-[1440px] mx-auto px-gr-2 md:px-gr-2 lg:px-gr-3 xl:px-gr-4 flex justify-start relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="w-full md:w-[80%] xl:w-1/2 flex flex-col items-start text-left"
+                        className="w-full md:w-[480px] xl:w-1/2 flex flex-col items-start text-left"
                     >
-                        <p className="font-mono text-[10px] md:text-[14px] xl:text-[11px] tracking-[0.2em] text-[#E5E5E5]/60 uppercase mb-4 md:mb-6 xl:mb-4">
+                        <p className="font-mono text-[10px] md:text-[14px] xl:text-[11px] tracking-[0.2em] text-[#090C12]/60 uppercase mb-4 md:mb-6 xl:mb-4">
                             Adaptability
                         </p>
-                        <h2 className="font-sans text-h2 text-white tracking-tight mb-6 md:mb-8 xl:mb-6">
+                        <h2 className="font-sans text-h2 text-[#090C12] tracking-tight mb-6 md:mb-8 xl:mb-6">
                             Selective Shield.
                         </h2>
-                        <p className="font-sans font-normal text-body1 text-[#F5F5F5]/90 max-w-[340px] md:max-w-[480px]">
+                        <p className="font-sans font-normal text-body1 text-[#090C12]/90 max-w-[340px] md:max-w-[480px]">
                             <span className="md:hidden">
                                 The outer surface is hydrophobic -<br />
                                 it pushes water away. The inner<br />

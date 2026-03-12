@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Hero from './components/Hero';
 import HorizontalFeatures from './components/HorizontalFeatures';
@@ -17,6 +17,7 @@ import Validation from './components/Validation';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Check viewport for push effect (only push on desktop)
   useEffect(() => {
@@ -27,12 +28,13 @@ function App() {
   }, []);
 
   return (
-    <main className="w-full bg-cosmos min-h-[100dvh] text-noise selection:bg-electro selection:text-white antialiased">
+    <main className="w-full bg-cosmos h-screen overflow-hidden text-noise selection:bg-electro selection:text-white antialiased">
       {/* Navigation sits outside the pushed content to remain "intact" (fixed) */}
       <Navigation isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
 
       {/* Main Content Wrapper - Pushes Left on Desktop */}
       <motion.div
+        ref={containerRef}
         animate={{
           x: isMenuOpen && isDesktop ? "-50vw" : 0,
           opacity: isMenuOpen && !isDesktop ? 0 : 1 // Fade out on mobile behind menu
@@ -50,31 +52,20 @@ function App() {
           // Optimization: Only hint will-change during the interaction to avoid persistent layer creation
           willChange: isMenuOpen ? 'transform' : 'auto'
         }}
-        className="w-full relative bg-cosmos"
+        className="w-full h-full relative bg-cosmos overflow-y-auto snap-y snap-mandatory scroll-smooth"
       >
         {/* Sections wrapped with snap-start for scroll behavior */}
-        <section className="snap-start">
-          <Hero />
-        </section>
+        <Hero />
 
-        <section className="snap-start">
-          <ImpactMetrics />
-        </section>
+        <ImpactMetrics scrollerRef={containerRef} />
 
         {/* Section 3 */}
-        <section className="snap-start">
-          <LatencyGap />
-        </section>
+        <LatencyGap />
 
         {/* Section 4: Foresight */}
-        <section className="snap-start">
-          <Foresight />
-        </section>
+        <Foresight />
 
-        {/* Section 5: System Logic (Replaces ProcessFlow, new layout) */}
-        <section className="snap-start">
-          <SystemLogic />
-        </section>
+        <SystemLogic />
 
         {/* Anatomy handles its own internal snapping */}
         <Anatomy />
@@ -86,24 +77,16 @@ function App() {
         {/* EngineeredReality handles its own internal snapping */}
         <EngineeredReality />
 
-        <section className="snap-start">
-          <HorizontalFeatures />
-        </section>
+        <HorizontalFeatures />
 
         {/* Anatomy Layers scroll spy handles its own internal snapping */}
-        <AnatomyLayers />
+        <AnatomyLayers scrollerRef={containerRef} />
 
-        <section className="snap-start">
-          <Showcase />
-        </section>
+        <Showcase />
 
-        <section className="snap-start">
-          <Validation />
-        </section>
+        <Validation />
 
-        <section className="snap-start">
-          <Footer />
-        </section>
+        <Footer />
       </motion.div>
     </main>
   );

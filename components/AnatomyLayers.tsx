@@ -1,12 +1,37 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import explodedBandImg from './Assets/VION-BAND-EXPLODED-NEW.jpg';
+import explodedBandImgMobile from './Assets/EXPLODED-VIEW-MOBILE.jpg';
+import explodedBandImgTablet from './Assets/EXPLODED-VIEW-TABLET.jpg';
 import curtainImg from './Assets/CURTAIN-1.png';
+import curtainImgMobile from './Assets/CURTAIN-1-MOBILE.png';
+import curtainImgTablet from './Assets/CURTAIN-1-TABLET.png';
 import curtain2Img from './Assets/CURTAIN-2.png';
+import curtain2ImgMobile from './Assets/CURTAIN-2-MOBILE.png';
+import curtain2ImgTablet from './Assets/CURTAIN-2-TABLEY.png';
 import curtain3Img from './CURTAIN-3.png';
+import curtain3ImgMobile from './Assets/CURTAIN-3-MOBILE.png';
+import curtain3ImgTablet from './Assets/CURTAIN-3-TABLET.png';
 
-const AnatomyLayers: React.FC = () => {
+interface AnatomyLayersProps {
+  scrollerRef?: React.RefObject<HTMLDivElement | null>;
+}
+
+const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1280);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // The container is 300dvh.
   // Stage 1 (Layer 1): 0.0 to 0.33
@@ -14,6 +39,7 @@ const AnatomyLayers: React.FC = () => {
   // Stage 3 (Layer 3): 0.66 to 1.0
   const { scrollYProgress } = useScroll({
     target: containerRef,
+    container: scrollerRef || undefined,
     offset: ["start start", "end end"]
   });
 
@@ -34,43 +60,61 @@ const AnatomyLayers: React.FC = () => {
   const curtain3Opacity = useTransform(scrollYProgress, [0, 0.6, 0.9, 1], [0, 0, 1, 1]);
 
   // Shared text block classes for the three layers
-  const textBlockClasses = "absolute top-[50%] right-gr-1 md:right-auto md:left-[55%] w-[calc(100%-32px)] md:w-auto md:max-w-[400px] pointer-events-auto flex flex-col items-start text-left -translate-y-1/2";
+  const textBlockClasses = `absolute pointer-events-auto flex flex-col ${
+    isMobile
+      ? "top-[70dvh] left-0 right-0 text-center items-center px-6"
+      : isTablet
+      ? "top-[67dvh] left-[calc(50%-240px)] w-[480px] text-center items-center px-8"
+      : "md:items-start md:text-left w-auto max-w-[400px] top-[50%] -translate-y-1/2 left-[55vw]"
+  }`;
 
   return (
-    <section ref={containerRef} className="bg-[#F5F7F7] w-full relative h-[300dvh]">
+    <section ref={containerRef} className="snap-start bg-[#F5F7F7] w-full relative h-[300dvh] z-10">
 
       {/* Sticky Viewport */}
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
 
-        {/* Static Image Box: responsive width, full height, mix-blend-multiply */}
-        <div className="absolute top-0 left-0 w-full md:w-1/2 h-[50dvh] md:h-[100dvh] z-0 mix-blend-multiply">
+        {/* Static Image Box: responsive width, height, mix-blend-multiply */}
+        <div className={`absolute z-0 mix-blend-multiply ${
+          isMobile
+            ? "top-0 left-0 w-full h-[80dvh]"
+            : isTablet
+            ? "top-0 left-0 w-full h-[65dvh]"
+            : "top-0 left-0 w-1/2 h-[100dvh]"
+        }`}>
           <img
-            src={explodedBandImg}
+            src={isMobile ? explodedBandImgMobile : isTablet ? explodedBandImgTablet : explodedBandImg}
             alt="Vion Anatomy Overview"
-            className="w-full h-full object-contain object-center absolute inset-0 z-0"
+            className={`w-full h-full absolute inset-0 z-0 ${
+              isMobile
+                ? "object-cover object-top"
+                : isTablet
+                ? "object-cover object-top"
+                : "object-contain object-center"
+            }`}
           />
 
           {/* Curtain Overlay for Layer One */}
           <motion.img
-            src={curtainImg}
+            src={isMobile ? curtainImgMobile : isTablet ? curtainImgTablet : curtainImg}
             alt="Gradient Curtain Overlay 1"
-            className="absolute bottom-0 left-0 w-full h-[50dvh] md:h-[100dvh] object-cover object-bottom z-10 pointer-events-none"
+            className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom z-10 pointer-events-none"
             style={{ opacity: curtain1Opacity }}
           />
 
           {/* Curtain Overlay for Layer Two */}
           <motion.img
-            src={curtain2Img}
+            src={isMobile ? curtain2ImgMobile : isTablet ? curtain2ImgTablet : curtain2Img}
             alt="Gradient Curtain Overlay 2"
-            className="absolute bottom-0 left-0 w-full h-[50dvh] md:h-[100dvh] object-cover object-bottom z-10 pointer-events-none"
+            className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom z-10 pointer-events-none"
             style={{ opacity: curtain2Opacity }}
           />
 
           {/* Curtain Overlay for Layer Three */}
           <motion.img
-            src={curtain3Img}
+            src={isMobile ? curtain3ImgMobile : isTablet ? curtain3ImgTablet : curtain3Img}
             alt="Gradient Curtain Overlay 3"
-            className="absolute bottom-0 left-0 w-full h-[50dvh] md:h-[100dvh] object-cover object-bottom z-10 pointer-events-none"
+            className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom z-10 pointer-events-none"
             style={{ opacity: curtain3Opacity }}
           />
 
@@ -90,7 +134,7 @@ const AnatomyLayers: React.FC = () => {
             <h2 className="font-sans text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
               The Logic.
             </h2>
-            <p className="font-sans font-medium text-body1 text-cosmos/80">
+            <p className="font-sans font-medium text-body1 text-cosmos/80 leading-[1.4]">
               The Logic CatBoost Integration. Recall-<br className="hidden xl:block" />
               optimized machine learning model (F-beta<br className="hidden xl:block" />
               0.94). Tuned specifically for renal health<br className="hidden xl:block" />
@@ -109,7 +153,7 @@ const AnatomyLayers: React.FC = () => {
             <h2 className="font-sans text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
               The Power.
             </h2>
-            <p className="font-sans font-medium text-body1 text-cosmos/80">
+            <p className="font-sans font-medium text-body1 text-cosmos/80 leading-[1.4]">
               Don't Charge. Catalytic Oxidation Layer.<br className="hidden xl:block" />
               Converts sweat lactate into electrical<br className="hidden xl:block" />
               energy, stored via a Supercapacitor<br className="hidden xl:block" />
@@ -128,7 +172,7 @@ const AnatomyLayers: React.FC = () => {
             <h2 className="font-sans text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
               The Transport.
             </h2>
-            <p className="font-sans font-medium text-body1 text-cosmos/80">
+            <p className="font-sans font-medium text-body1 text-cosmos/80 leading-[1.4]">
               The Transport Directed Microfluidics.<br className="hidden xl:block" />
               Hydrophilic polyester mesh with PDMS<br className="hidden xl:block" />
               hydrophobic barriers. Sweat is channeled,<br className="hidden xl:block" />

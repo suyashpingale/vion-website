@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const HorizontalFeatures: React.FC = () => {
   return (
-    <section className="bg-[#F4F6F6] min-h-[100dvh] w-full flex flex-col items-center justify-center py-16 md:py-24 px-gr-1 md:px-gr-2 relative overflow-hidden">
+    <section className="bg-[#F4F6F6] min-h-[100dvh] w-full flex flex-col items-center justify-center py-16 md:py-24 px-gr-1 md:px-gr-2 relative overflow-hidden snap-start">
 
       <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto z-10 w-full">
 

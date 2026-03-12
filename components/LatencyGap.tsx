@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const LatencyGap: React.FC = () => {
   return (
-    <section className="bg-[#0B151E] min-h-[100dvh] relative overflow-hidden flex flex-col justify-center items-center py-16 md:py-24 px-gr-1 md:px-gr-2">
+    <section className="bg-[#0B151E] min-h-[100dvh] relative overflow-hidden flex flex-col justify-center items-center py-16 md:py-24 px-gr-1 md:px-gr-2 snap-start">
 
       <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto z-10 w-full relative">
 
