@@ -69,7 +69,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
   }`;
 
   return (
-    <section ref={containerRef} className="snap-start bg-[#F5F7F7] w-full relative h-[300dvh] z-10">
+    <section ref={containerRef} className="snap-start bg-[#F5F7F7] w-full relative h-[300dvh] z-10 overscroll-none">
 
       {/* Sticky Viewport */}
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">

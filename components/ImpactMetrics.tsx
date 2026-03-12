@@ -67,7 +67,7 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full" 
+      className="relative w-full overscroll-none" 
       style={{ height: "400vh" }}
     >
       {CARDS.map((card, i) => {
