@@ -183,12 +183,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
 
       </div>
 
-      {/* Snap Spacers */}
-      <div className="absolute top-0 w-full h-[300dvh] pointer-events-none flex flex-col pt-[1px]">
-        <div className="h-[100dvh] w-full snap-start snap-always" />
-        <div className="h-[100dvh] w-full snap-start snap-always" />
-        <div className="h-[100dvh] w-full snap-start snap-always" />
-      </div>
+
 
     </section>
   );

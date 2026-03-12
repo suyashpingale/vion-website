@@ -52,7 +52,7 @@ function App() {
           // Optimization: Only hint will-change during the interaction to avoid persistent layer creation
           willChange: isMenuOpen ? 'transform' : 'auto'
         }}
-        className="w-full h-full relative bg-cosmos overflow-y-auto snap-y snap-mandatory scroll-smooth"
+        className="w-full h-full relative bg-cosmos overflow-y-auto scroll-smooth"
       >
         {/* Sections wrapped with snap-start for scroll behavior */}
         <Hero />

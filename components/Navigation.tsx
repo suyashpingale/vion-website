@@ -22,7 +22,7 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, setIsOpen }) => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     }
   }, [isOpen]);
 
