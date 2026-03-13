@@ -7,6 +7,7 @@ import vionLogo from './Assets/LOGO-ICON-SVG.svg';
 interface NavigationProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  scrollerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 const navLinks = [
@@ -16,7 +17,7 @@ const navLinks = [
   { label: "Company", href: "#" },
 ];
 
-const Navigation: React.FC<NavigationProps> = ({ isOpen, setIsOpen }) => {
+const Navigation: React.FC<NavigationProps> = ({ isOpen, setIsOpen, scrollerRef }) => {
   // Lock body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -50,7 +51,9 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, setIsOpen }) => {
   };
 
   // Responsive scroll-fade logic — fade out when nearing the bottom (footer area)
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll({
+    container: scrollerRef || undefined,
+  });
   const [navOpacity, setNavOpacity] = useState(1);
   const [navPointerEvents, setNavPointerEvents] = useState<'auto' | 'none'>('auto');
 

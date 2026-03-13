@@ -30,7 +30,7 @@ function App() {
   return (
     <main className="w-full bg-cosmos h-screen overflow-hidden text-noise selection:bg-electro selection:text-white antialiased">
       {/* Navigation sits outside the pushed content to remain "intact" (fixed) */}
-      <Navigation isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+      <Navigation isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} scrollerRef={containerRef} />
 
       {/* Main Content Wrapper - Pushes Left on Desktop */}
       <motion.div
