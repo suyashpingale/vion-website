@@ -19,7 +19,7 @@ const Hero: React.FC = () => {
     <section ref={containerRef} className="relative h-[100dvh] min-h-[100dvh] w-full bg-[#F5F7F7] overflow-hidden snap-start">
       <motion.div style={{ opacity }} className="w-full h-[100dvh] min-h-[100dvh] flex flex-col-reverse xl:flex-row">
         {/* Left Column: Device Visual (50vw) */}
-        <div className="w-full xl:w-1/2 h-[60vh] xl:h-auto relative overflow-hidden xl:overflow-visible bg-[#F5F7F7] flex items-end xl:items-center justify-center xl:justify-start">
+        <div className="w-full xl:w-1/2 h-[50vh] xl:h-auto relative overflow-hidden xl:overflow-visible bg-[#F5F7F7] flex items-end xl:items-center justify-center xl:justify-start">
           <motion.div
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Right Column: Typography (50vw) */}
-        <div className="w-full xl:w-1/2 flex-1 flex flex-col items-center xl:items-start text-center xl:text-left justify-end xl:justify-center px-gr-1 md:px-gr-2 lg:px-gr-3 3xl:px-gr-4 pt-0 xl:pt-0 pb-0 xl:pb-0 bg-[#F5F7F7] relative z-10">
+        <div className="w-full xl:w-1/2 flex-1 flex flex-col items-center xl:items-start text-center xl:text-left justify-center px-gr-1 md:px-gr-2 lg:px-gr-3 3xl:px-gr-4 pt-16 sm:pt-24 xl:pt-0 pb-0 xl:pb-0 bg-[#F5F7F7] relative z-10">
 
           <div className="max-w-xl 2xl:max-w-3xl 3xl:max-w-5xl 4xl:max-w-[1200px] flex flex-col items-center xl:items-start text-center xl:text-left">
             {/* Label */}
@@ -57,27 +57,35 @@ const Hero: React.FC = () => {
 
             {/* Main Headline */}
             <div className="mb-6 md:mb-8 lg:mb-10 lg:pr-12 2xl:pr-0">
-              <motion.h1
+              <motion.h2
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="font-sans text-[clamp(1.75rem,5vw,5rem)] 2xl:text-[72px] 2xl:leading-[80px] 3xl:text-[100px] 3xl:leading-[110px] 4xl:text-[130px] 4xl:leading-[140px] font-light tracking-[-0.02em] text-cosmos/60"
+                className="font-sans text-h2 2xl:text-[72px] 2xl:leading-[80px] 3xl:text-[100px] 3xl:leading-[110px] 4xl:text-[130px] 4xl:leading-[140px] text-slate-400 tracking-tight"
               >
-                What if health<br className="xl:hidden" />
-                could be <span className="font-bold text-cosmos">predicted</span>,<br className="xl:hidden" />
-                not just observed?
-              </motion.h1>
+                <span className="block 2xl:hidden">
+                  What if health<br />
+                  could be <span className="text-cosmos font-medium">predicted</span>,<br />
+                  not just observed?
+                </span>
+                <span className="hidden 2xl:block">
+                  What if health<br />
+                  could be <br />
+                  <span className="text-cosmos font-medium">predicted</span>,<br />
+                  not just observed?
+                </span>
+              </motion.h2>
             </div>
 
             {/* Sub Headline */}
-            <motion.p
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.8 }}
-              className="font-sans text-[clamp(1.5rem,4.5vw,3rem)] 2xl:text-[72px] 2xl:leading-[80px] 3xl:text-[100px] 3xl:leading-[110px] 4xl:text-[130px] 4xl:leading-[140px] font-light tracking-[-0.02em] text-cosmos/60 mb-10 md:mb-16"
+              className="font-sans text-h2 2xl:text-[72px] 2xl:leading-[80px] 3xl:text-[100px] 3xl:leading-[110px] 4xl:text-[130px] 4xl:leading-[140px] text-cosmos font-medium mb-10 md:mb-16 tracking-tight"
             >
-              <span className="font-bold text-cosmos">VION</span> does that...
-            </motion.p>
+              VION <span className="text-slate-400 font-normal">does that...</span>
+            </motion.h2>
 
             {/* Call to Action */}
             <motion.button
@@ -86,7 +94,7 @@ const Hero: React.FC = () => {
               transition={{ delay: 1.5, duration: 0.8 }}
               className="group flex items-center gap-3 font-mono text-body2 uppercase tracking-[0.15em] text-slate-500 hover:text-cosmos transition-colors font-medium min-h-[44px]"
             >
-              GET THE HIGHLIGHTS
+              Get the highlights
               <span className="w-2.5 h-2.5 bg-electro shadow-sm block" />
             </motion.button>
           </div>
