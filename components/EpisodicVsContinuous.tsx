@@ -1,13 +1,13 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, transition, easeOutExpo } from './motion';
 
 /**
- * SECTION 3 — Episodic vs Continuous
+ * SECTION 3 — Episodic vs Continuous (light, design pass)
  *
- * Light background, two-column comparison. No scroll animation (static layout).
- * Each column is a vertical list of steps connected by an SVG line with nodes.
- * Left (episodic) is muted + dashed; right (continuous) is active + solid.
- *
- * Structure-first: placeholder Tailwind utilities + brand color tokens only.
+ * Two-column comparison. Left (episodic) is muted + dashed connector; right
+ * (continuous) is active + solid connector with an electro accent. Steps
+ * stagger in on scroll. Labels are Switzer (mono retired).
  */
 
 interface Step {
@@ -30,70 +30,84 @@ const CONTINUOUS: Step[] = [
 ];
 
 const StepList: React.FC<{ steps: Step[]; active: boolean }> = ({ steps, active }) => (
-  <ol className="relative flex flex-col gap-8 md:gap-10 pl-8">
+  <ol className="relative flex flex-col gap-9 md:gap-11 pl-9">
     {/* Connecting line */}
     <span
       aria-hidden
-      className={`absolute left-[7px] top-2 bottom-2 w-px ${
-        active ? 'bg-cosmos' : 'border-l border-dashed border-cosmos/30 w-0'
+      className={`absolute left-[8px] top-3 bottom-3 ${
+        active ? 'w-px bg-gradient-to-b from-electro via-electro/60 to-electro/10' : 'w-0 border-l border-dashed border-cosmos/25'
       }`}
     />
     {steps.map((step, i) => (
-      <li key={i} className="relative">
+      <motion.li
+        key={i}
+        className="relative"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.6 }}
+        transition={{ duration: 0.5, ease: easeOutExpo, delay: i * 0.06 }}
+      >
         {/* Node */}
         <span
           aria-hidden
-          className={`absolute -left-8 top-1 h-3.5 w-3.5 rounded-full border ${
-            active ? 'bg-electro border-electro' : 'bg-transparent border-cosmos/40'
+          className={`absolute -left-9 top-1 h-3.5 w-3.5 rounded-full border-2 ${
+            active ? 'bg-electro border-electro shadow-[0_0_0_4px_rgba(70,179,235,0.15)]' : 'bg-[#F5F7F7] border-cosmos/30'
           }`}
         />
-        <p className={`text-base md:text-lg ${active ? 'text-cosmos/80 font-medium' : 'text-cosmos/40'}`}>
+        <p className={`text-base md:text-lg ${active ? 'text-cosmos font-medium' : 'text-cosmos/45'}`}>
           {step.label}
         </p>
-        <p className={`text-xs md:text-sm mt-1 ${active ? 'text-electro' : 'text-cosmos/40'}`}>
+        <p className={`text-sm mt-1 ${active ? 'text-electro' : 'text-cosmos/35'}`}>
           {step.note}
         </p>
-      </li>
+      </motion.li>
     ))}
   </ol>
 );
 
 const EpisodicVsContinuous: React.FC = () => {
   return (
-    <section className="w-full bg-[#F5F7F7] snap-start py-20 md:py-28 px-6 md:px-12 xl:px-20">
+    <section className="w-full bg-clinical snap-start py-24 md:py-32 px-6 md:px-12 xl:px-24">
+      <motion.div {...fadeUp} transition={transition(0)} className="flex items-center gap-2.5 mb-6">
+        <span className="h-1.5 w-1.5 rounded-full bg-electro" />
+        <span className="eyebrow text-cosmos/45">The Difference</span>
+      </motion.div>
+
       {/* Heading — opacity system */}
-      <h2 className="font-sans tracking-tight text-3xl md:text-5xl xl:text-6xl mb-16 md:mb-24 max-w-4xl">
+      <motion.h2
+        {...fadeUp}
+        transition={transition(0.05)}
+        className="font-sans font-medium tracking-[-0.02em] text-3xl md:text-5xl xl:text-6xl mb-16 md:mb-24 max-w-4xl leading-[1.08]"
+      >
         <span className="text-cosmos/25">Testing was built for </span>
         <span className="text-cosmos">snapshots.</span>
         <span className="text-cosmos/25"> Biology doesn't </span>
         <span className="text-cosmos">pause.</span>
-      </h2>
+      </motion.h2>
 
       {/* Two columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 max-w-5xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-14 max-w-5xl">
         {/* Episodic (muted) */}
-        <div>
+        <motion.div {...fadeUp} transition={transition(0.1)}>
           <div className="flex items-center gap-3 mb-10">
-            {/* Vial icon */}
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="text-cosmos/40">
               <path d="M9 2h6M10 2v7l-3 8a3 3 0 0 0 3 4h4a3 3 0 0 0 3-4l-3-8V2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
             </svg>
-            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-cosmos/40">Episodic Testing</h3>
+            <h3 className="font-sans text-sm font-medium uppercase tracking-[0.16em] text-cosmos/40">Episodic Testing</h3>
           </div>
           <StepList steps={EPISODIC} active={false} />
-        </div>
+        </motion.div>
 
         {/* Continuous (active) */}
-        <div>
+        <motion.div {...fadeUp} transition={transition(0.18)} className="md:rounded-2xl md:p-8 md:-m-8 md:bg-gradient-to-b md:from-electro/[0.06] md:to-transparent">
           <div className="flex items-center gap-3 mb-10">
-            {/* Waveform icon */}
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="text-electro">
               <path d="M2 12h3l2-6 4 12 3-9 2 3h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-cosmos/70">Continuous Stratification</h3>
+            <h3 className="font-sans text-sm font-medium uppercase tracking-[0.16em] text-cosmos/70">Continuous Stratification</h3>
           </div>
           <StepList steps={CONTINUOUS} active />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

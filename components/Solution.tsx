@@ -1,70 +1,56 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { fadeUp, transition } from './motion';
 
 /**
- * SECTION 4 — Solution Statement (revised from LatencyGap)
+ * SECTION 4 — Solution Statement (dark emphasis, design pass)
  *
- * Dark section: "A lab. On your arm." Body paragraph is right-aligned on
- * desktop / centered on mobile. A system-voice mono paragraph is anchored at
- * the bottom-left. Keeps the existing scroll-fade entrance behavior.
+ * "A lab. On your arm." Centered statement with a soft electro glow, body copy
+ * and a quiet system-voice paragraph. Mono retired in favour of Switzer.
  */
 const Solution: React.FC = () => {
   return (
-    <section className="bg-[#0B151E] min-h-[100dvh] relative overflow-hidden flex flex-col justify-center py-16 md:py-24 px-gr-1 md:px-gr-2 snap-start">
+    <section className="relative bg-emphasis min-h-[100dvh] overflow-hidden flex flex-col justify-center py-24 md:py-32 px-6 md:px-12 xl:px-24 snap-start">
 
-      <div className="flex flex-col items-center xl:items-end text-center xl:text-right max-w-5xl mx-auto z-10 w-full relative">
-
-        {/* Top Label */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="border border-white/10 px-3 py-1.5 mb-10 md:mb-14"
-        >
-          <span className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-white/50 uppercase font-medium">
-            The Solution
-          </span>
+      <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto w-full">
+        {/* Eyebrow */}
+        <motion.div {...fadeUp} transition={transition(0)} className="flex items-center gap-2.5 mb-8">
+          <span className="h-1.5 w-1.5 rounded-full bg-electro" />
+          <span className="eyebrow text-electro/80">The Solution</span>
         </motion.div>
 
         {/* Headline */}
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-sans text-h1 text-white mb-8 md:mb-12 tracking-tight"
+          {...fadeUp}
+          transition={transition(0.06)}
+          className="font-sans font-medium text-5xl md:text-7xl xl:text-8xl text-white mb-10 md:mb-12 tracking-[-0.03em] leading-[0.98]"
         >
           A lab.<br />
           On your <span className="text-electro">arm.</span>
         </motion.h2>
 
-        {/* Body paragraph — right-aligned on desktop, centered on mobile */}
+        {/* Body */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-sans text-body1 text-white/90 font-medium max-w-[480px] text-center xl:text-right"
+          {...fadeUp}
+          transition={transition(0.14)}
+          className="font-sans text-lg md:text-xl text-white/55 max-w-[520px] leading-relaxed"
         >
           We took a clinical diagnostic machine and shrank it. No needles. No wires.
-          No batteries. It just works. Clinical-grade health prediction from sweat —
-          you don't need to manage it. You won't even feel it.
+          No batteries. It just works — clinical-grade health prediction from sweat.
+          You don't need to manage it. You won't even feel it.
         </motion.p>
       </div>
 
-      {/* System-voice paragraph — bottom-left */}
+      {/* System-voice paragraph — bottom-left, quiet (sans) */}
       <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 text-left max-w-[560px] mt-20 md:mt-28"
+        {...fadeUp}
+        transition={transition(0.2)}
+        className="relative z-10 font-sans text-sm leading-relaxed text-white/35 text-left max-w-[560px] mt-20 md:mt-28 mx-auto xl:mx-0"
       >
         VION is built on a simple premise: health does not fail suddenly. It shifts
-        quietly, long before symptoms appear. Our system is designed to observe these
-        shifts continuously — without disruption, without alarm — allowing foresight
-        to emerge over time.
+        quietly, long before symptoms appear. Our system observes these shifts
+        continuously — without disruption, without alarm — allowing foresight to
+        emerge over time.
       </motion.p>
     </section>
   );

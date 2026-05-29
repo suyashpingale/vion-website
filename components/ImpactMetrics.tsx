@@ -121,7 +121,7 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
             >
               <span
                 style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontFamily: "'Switzer', 'Inter', sans-serif",
                   fontSize: "clamp(4rem, 10vw, 9rem)",
                   fontWeight: 300,
                   color: card.textColor,
@@ -133,7 +133,7 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
               </span>
               <span
                 style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontFamily: "'Switzer', 'Inter', sans-serif",
                   fontSize: "10px",
                   textTransform: "uppercase",
                   letterSpacing: "0.15em",
