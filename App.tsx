@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Hero from './components/Hero';
-import HorizontalFeatures from './components/HorizontalFeatures';
+import SilentDrift from './components/SilentDrift';
+import EpisodicVsContinuous from './components/EpisodicVsContinuous';
+import Solution from './components/Solution';
+import AnatomyLayers from './components/AnatomyLayers';
+import BiomarkerGrid from './components/BiomarkerGrid';
 import ImpactMetrics from './components/ImpactMetrics';
-import LatencyGap from './components/LatencyGap';
-import Foresight from './components/Foresight';
-import SystemLogic from './components/SystemLogic';
-import Anatomy from './components/Anatomy';
-import EngineeredReality from './components/EngineeredReality';
+import DashboardMock from './components/DashboardMock';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
-import AnatomyLayers from './components/AnatomyLayers';
-import Showcase from './components/Showcase';
-import Validation from './components/Validation';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,38 +51,31 @@ function App() {
         }}
         className="w-full h-full relative bg-cosmos overflow-y-auto scroll-smooth overscroll-none"
       >
-        {/* Sections wrapped with snap-start for scroll behavior */}
+        {/* 1. Hero */}
         <Hero />
 
-        <ImpactMetrics scrollerRef={containerRef} />
+        {/* 2. The Problem — Silent Drift Timeline (scroll-driven) */}
+        <SilentDrift scrollerRef={containerRef} />
 
-        {/* Section 3 */}
-        <LatencyGap />
+        {/* 3. Episodic vs Continuous */}
+        <EpisodicVsContinuous />
 
-        {/* Section 4: Foresight */}
-        <Foresight />
+        {/* 4. Solution Statement */}
+        <Solution />
 
-        <SystemLogic />
-
-        {/* Anatomy handles its own internal snapping */}
-        <Anatomy />
-
-        {/* <section className="snap-start">
-          <ZeroMaintenance />
-        </section> */}
-
-        {/* EngineeredReality handles its own internal snapping */}
-        <EngineeredReality />
-
-        <HorizontalFeatures />
-
-        {/* Anatomy Layers scroll spy handles its own internal snapping */}
+        {/* 5. Anatomy Layers / How It Works (handles its own scroll spy) */}
         <AnatomyLayers scrollerRef={containerRef} />
 
-        <Showcase />
+        {/* 6. What We Measure — Biomarker Grid */}
+        <BiomarkerGrid />
 
-        <Validation />
+        {/* 7. Impact Metrics / Stats (sticky-stack scroll) */}
+        <ImpactMetrics scrollerRef={containerRef} />
 
+        {/* 8. Dashboard Mock */}
+        <DashboardMock />
+
+        {/* 9. Footer */}
         <Footer />
       </motion.div>
     </main>
