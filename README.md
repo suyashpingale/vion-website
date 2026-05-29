@@ -1,20 +1,34 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# VION — Digital Laboratory
 
-# Run and deploy your AI Studio app
+Marketing site for VION, a sovereign health intelligence interface. Built with
+Vite, React 19, TypeScript, and Tailwind CSS v4. Deployed on Vercel
+(vion-global.com).
 
-This contains everything you need to run your app locally.
+## Prerequisites
 
-View your app in AI Studio: https://ai.studio/apps/drive/18IT31raRaYWmirwxGy4SBqePl7b3tuK9
+- Node.js 20+
 
-## Run Locally
+## Run locally
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+npm run dev      # starts the dev server on http://localhost:3000
+```
 
+## Other scripts
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm run build    # production build to dist/
+npm run preview  # preview the production build locally
+npm run lint     # eslint (zero-warning policy)
+```
+
+## Deployment
+
+Production is hosted on Vercel and connected to the `vion-global.com` domain.
+Vercel auto-detects the Vite framework preset: it runs `npm install` then
+`npm run build` and serves `dist/`. No environment variables are required.
+
+> Note: `node_modules/` and `dist/` are intentionally git-ignored. Never commit
+> them — committed dependencies are platform-specific and will break the build
+> on other machines (e.g. Linux CI / Vercel).

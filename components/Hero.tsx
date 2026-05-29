@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import heroBandDesktop from './Assets/images-compressed/HERO-BAND.jpg';
 import heroBandTablet from './Assets/images-compressed/HERO-BAND-TABLET.jpg';
 import heroBandMobile from './Assets/images-compressed/HERO-BAND-MOBILE.jpg';
-import curtainImg from './Assets/CURTAIN-4.png';
 import ResponsivePicture from './ResponsivePicture';
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);

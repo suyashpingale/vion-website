@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 /**
  * VION Animated Footer — Line Field
@@ -91,10 +91,12 @@ export default function AnimatedFooter() {
   const smoothYRef    = useRef(0);
   const hoverWtRef    = useRef(0);  // 0 = resting, 1 = fully hovered
   const rafRef        = useRef<number>(0);
-  const winWRef       = useRef(typeof window !== "undefined" ? window.innerWidth : 1280);
+  // Window width drives layout, so it must live in state to trigger re-renders
+  // on resize. (A ref would not re-render and the layout would go stale.)
+  const [winW, setWinW] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
 
   useEffect(() => {
-    const onResize = () => { winWRef.current = window.innerWidth; };
+    const onResize = () => { setWinW(window.innerWidth); };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -119,7 +121,7 @@ export default function AnimatedFooter() {
 
     // Mouse — desktop + tablet only
     const onMove = (e: MouseEvent) => {
-      if (winWRef.current < 640) return;
+      if (window.innerWidth < 640) return;
       const rect = canvas.getBoundingClientRect();
       mouseRef.current = { y: e.clientY - rect.top, active: true };
     };
@@ -194,10 +196,9 @@ export default function AnimatedFooter() {
   }, []);
 
   // Layout helpers
-  const vw        = winWRef.current;
+  const vw        = winW;
   const isDesktop = vw >= 1024;
-  const isTablet  = vw >= 640;
-  
+
   // Matching Navigation.tsx padding: p-gr-1 (approx 24px) mobile, md:p-[20px] desktop/tablet
   const navPad    = vw >= 768 ? "20px" : "24px"; 
   
