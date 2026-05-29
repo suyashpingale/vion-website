@@ -43,3 +43,6 @@ coverage/
 
 # Agent tooling (installed locally via `npx skills add`)
 .agents/
+
+# Skills installer lockfile (agent tooling)
+skills-lock.json
