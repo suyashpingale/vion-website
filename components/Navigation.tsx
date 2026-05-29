@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-// @ts-ignore
-import vionLogo from './Assets/LOGO-ICON-SVG.svg';
 
 interface NavigationProps {
   isOpen: boolean;
@@ -118,7 +116,7 @@ const Navigation: React.FC<NavigationProps> = ({ isOpen, setIsOpen, scrollerRef 
         if (pixel[3] > 0) { // Not fully transparent
           return (0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2]) / 255;
         }
-      } catch (e) {
+      } catch {
         // Cross-origin image blocks pixel reading, gracefully fallback
       }
       return null;
