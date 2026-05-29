@@ -79,7 +79,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
           isMobile
             ? "top-0 left-0 w-full h-[80dvh]"
             : isTablet
-            ? "top-0 left-0 w-full h-[65dvh]"
+            ? "top-0 left-[calc(50%-280px)] w-[560px] h-[60dvh]"
             : "top-0 left-0 w-1/2 h-[100dvh]"
         }`}>
           <img
@@ -89,7 +89,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
               isMobile
                 ? "object-cover object-top"
                 : isTablet
-                ? "object-cover object-top"
+                ? "object-contain object-center"
                 : "object-contain object-center"
             }`}
           />
@@ -128,17 +128,16 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             className={textBlockClasses}
             style={{ opacity: text1Opacity }}
           >
-            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/50 uppercase mb-5 font-medium">
+            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/40 uppercase mb-5 font-medium">
               Layer One
             </p>
-            <h2 className="font-sans text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
+            <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
               The Logic.
             </h2>
-            <p className="font-sans font-medium text-body1 text-cosmos/80 leading-[1.4]">
-              The Logic CatBoost Integration. Recall-<br className="hidden xl:block" />
-              optimized machine learning model (F-beta<br className="hidden xl:block" />
-              0.94). Tuned specifically for renal health<br className="hidden xl:block" />
-              markers and CKD prediction.
+            <p className="font-sans font-light text-body1 text-cosmos/40 leading-[1.5]">
+              CatBoost Integration. Recall-optimized machine learning model (F-beta 0.94).
+              Calibrated for risk stratification and early detection of physiological drift
+              across biomarkers.
             </p>
           </motion.div>
 
@@ -147,17 +146,15 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             className={textBlockClasses}
             style={{ opacity: text2Opacity }}
           >
-            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/50 uppercase mb-5 font-medium">
+            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/40 uppercase mb-5 font-medium">
               Layer Two
             </p>
-            <h2 className="font-sans text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
+            <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
               The Power.
             </h2>
-            <p className="font-sans font-medium text-body1 text-cosmos/80 leading-[1.4]">
-              Don't Charge. Catalytic Oxidation Layer.<br className="hidden xl:block" />
-              Converts sweat lactate into electrical<br className="hidden xl:block" />
-              energy, stored via a Supercapacitor<br className="hidden xl:block" />
-              Array. Status: Self-Sustained.
+            <p className="font-sans font-light text-body1 text-cosmos/40 leading-[1.5]">
+              Catalytic Oxidation Layer. Converts sweat lactate into electrical energy,
+              stored via a Supercapacitor Array. No charging. Self-sustained.
             </p>
           </motion.div>
 
@@ -166,17 +163,15 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             className={textBlockClasses}
             style={{ opacity: text3Opacity }}
           >
-            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/50 uppercase mb-5 font-medium">
+            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/40 uppercase mb-5 font-medium">
               Layer Three
             </p>
-            <h2 className="font-sans text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
+            <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
               The Transport.
             </h2>
-            <p className="font-sans font-medium text-body1 text-cosmos/80 leading-[1.4]">
-              The Transport Directed Microfluidics.<br className="hidden xl:block" />
-              Hydrophilic polyester mesh with PDMS<br className="hidden xl:block" />
-              hydrophobic barriers. Sweat is channeled,<br className="hidden xl:block" />
-              not absorbed. Result: Zero lateral diffusion.
+            <p className="font-sans font-light text-body1 text-cosmos/40 leading-[1.5]">
+              Directed Microfluidics. Hydrophilic polyester mesh with PDMS hydrophobic
+              barriers. Sweat is channeled, not absorbed. Result: Zero lateral diffusion.
             </p>
           </motion.div>
         </div>

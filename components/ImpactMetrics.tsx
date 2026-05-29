@@ -4,25 +4,29 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 const CARDS = [
   {
     stat: "84%",
-    copy: "Clinical diagnoses arriving after measurable biochemical drift has already occurred.",
+    label: "Late diagnosis",
+    copy: "of chronic kidney disease cases are diagnosed at Stage 3 or later",
     bg: "#B8CAD8",
     textColor: "#082230",
   },
   {
     stat: "100+",
-    copy: "Days before symptoms appear, biochemical markers already start drifting from baseline.",
+    label: "Silent drift",
+    copy: "days of metabolic drift occur before clinical symptoms emerge",
     bg: "#94ADBE",
     textColor: "#082230",
   },
   {
     stat: "120+",
-    copy: "Mainstream wearables / everyday devices use these indicators.",
+    label: "Validation",
+    copy: "peer-reviewed studies validate sweat as a biomarker source",
     bg: "#6D8DA8",
     textColor: "#082230",
   },
   {
     stat: "zero",
-    copy: "Mainstream wearables / everyday devices use these indicators.",
+    label: "Zero burden",
+    copy: "blood draws. Zero batteries. Zero clinic visits.",
     bg: "#082230",
     textColor: "#ffffff",
   },
@@ -82,8 +86,10 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
         // Layout math matching the user's reference
         const initialTop = i === 3 ? 50 : 50 - i * (100 / 6);
         const pushUp = useTransform(ov, (v) => i === 3 ? 0 : v * (initialTop - (100 / 6)));
-        
+
         const translateY = useTransform(pushUp, (p) => `calc(-50% - ${p}vh)`);
+        // Copy tracks the incoming card's overlap directly (overlap * 50vh).
+        const copyTranslateY = useTransform(ov, (v) => `calc(-50% - ${i === 3 ? 0 : v * 50}vh)`);
 
         return (
           <div
@@ -100,7 +106,7 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
               scrollSnapStop: "always",
             }}
           >
-            {/* Stat Number */}
+            {/* Stat Number + sub-label */}
             <motion.div
               style={{
                 position: "absolute",
@@ -115,8 +121,8 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
             >
               <span
                 style={{
-                  fontFamily: "'Switzer', 'Inter', sans-serif",
-                  fontSize: "clamp(60px, 14vw, 180px)",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "clamp(4rem, 10vw, 9rem)",
                   fontWeight: 300,
                   color: card.textColor,
                   letterSpacing: "-0.03em",
@@ -124,6 +130,20 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
                 }}
               >
                 {card.stat}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "10px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.15em",
+                  color: card.textColor,
+                  opacity: 0.4,
+                  display: "block",
+                  marginTop: "1.25rem",
+                }}
+              >
+                {card.label}
               </span>
             </motion.div>
 
@@ -133,7 +153,7 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
                 position: "absolute",
                 left: "54%",
                 top: `${initialTop}%`,
-                y: translateY,
+                y: copyTranslateY,
                 maxWidth: 280,
               }}
             >
