@@ -1,32 +1,44 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
+/**
+ * SECTION 7 — Impact Metrics / Stats (Pattern D, sticky-stack)
+ *
+ * Four full-viewport cards that stack via sticky scroll. Each shows an oversized
+ * number, a real label, supporting copy, and a tiny source caption (numbers are
+ * sourced from the VION knowledge repository, Part 3). The sticky/overlap
+ * mechanic is preserved; only typography + content were refined.
+ */
 const CARDS = [
   {
     stat: "84%",
-    label: "Late diagnosis",
-    copy: "of chronic kidney disease cases are diagnosed at Stage 3 or later",
+    label: "Late-stage diagnosis",
+    copy: "of chronic kidney disease cases are diagnosed at Stage 3 or later — after irreversible damage.",
+    source: "CDC / NIDDK epidemiology",
     bg: "#B8CAD8",
     textColor: "#082230",
   },
   {
     stat: "100+",
-    label: "Silent drift",
-    copy: "days of metabolic drift occur before clinical symptoms emerge",
+    label: "The silent window",
+    copy: "days of metabolic drift occur before clinical symptoms emerge.",
+    source: "Tabak et al. 2009, multi-cohort longitudinal",
     bg: "#94ADBE",
     textColor: "#082230",
   },
   {
     stat: "120+",
-    label: "Validation",
-    copy: "peer-reviewed studies validate sweat as a biomarker source",
+    label: "Validated science",
+    copy: "peer-reviewed studies validate sweat as a biomarker source.",
+    source: "Sweat biomarker literature",
     bg: "#6D8DA8",
     textColor: "#082230",
   },
   {
     stat: "zero",
-    label: "Zero burden",
+    label: "By design",
     copy: "blood draws. Zero batteries. Zero clinic visits.",
+    source: "VION architecture specification",
     bg: "#082230",
     textColor: "#ffffff",
   },
@@ -39,8 +51,8 @@ const CARDS = [
 const ease75 = (t: number) => {
   if (t <= 0) return 0;
   if (t >= 1) return 1;
-  return t < 0.5 
-    ? 16 * Math.pow(t, 5) 
+  return t < 0.5
+    ? 16 * Math.pow(t, 5)
     : 1 - Math.pow(-2 * t + 2, 5) / 2;
 };
 
@@ -50,46 +62,45 @@ interface ImpactMetricsProps {
 
 export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Track scroll progress of the entire 400vh section
   const { scrollYProgress } = useScroll({
     target: containerRef,
     container: scrollerRef || undefined,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
-  // Re-introducing a high-performance spring. 
-  // mass: 0.01 makes it react instantly to prevent 'lag' overlap,
-  // but it still filters out the 'stepping' jitter of raw scroll events.
+  // High-performance spring filters scroll jitter without lag.
   const progress = useSpring(scrollYProgress, {
     damping: 30,
     stiffness: 400,
     mass: 0.01,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
   return (
-    <div 
-      ref={containerRef} 
-      className="relative w-full overscroll-none" 
+    <div
+      ref={containerRef}
+      className="relative w-full overscroll-none"
       style={{ height: "400vh" }}
     >
       {CARDS.map((card, i) => {
         const start = i * 0.25;
         const end = (i + 1) * 0.25;
-        
+
         // Local progress (0 to 1) for the current overlap phase
         /* eslint-disable react-hooks/rules-of-hooks */
         const rawOv = useTransform(progress, [start, end], [0, 1]);
         const ov = useTransform(rawOv, (v) => ease75(v));
 
-        // Layout math matching the user's reference
+        // Layout math matching the reference
         const initialTop = i === 3 ? 50 : 50 - i * (100 / 6);
-        const pushUp = useTransform(ov, (v) => i === 3 ? 0 : v * (initialTop - (100 / 6)));
+        const pushUp = useTransform(ov, (v) => (i === 3 ? 0 : v * (initialTop - 100 / 6)));
 
         const translateY = useTransform(pushUp, (p) => `calc(-50% - ${p}vh)`);
         // Copy tracks the incoming card's overlap directly (overlap * 50vh).
         const copyTranslateY = useTransform(ov, (v) => `calc(-50% - ${i === 3 ? 0 : v * 50}vh)`);
+        /* eslint-enable react-hooks/rules-of-hooks */
 
         return (
           <div
@@ -134,11 +145,12 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
               <span
                 style={{
                   fontFamily: "'Switzer', 'Inter', sans-serif",
-                  fontSize: "10px",
+                  fontSize: "12px",
                   textTransform: "uppercase",
-                  letterSpacing: "0.15em",
+                  letterSpacing: "0.18em",
+                  fontWeight: 500,
                   color: card.textColor,
-                  opacity: 0.4,
+                  opacity: 0.55,
                   display: "block",
                   marginTop: "1.25rem",
                 }}
@@ -147,21 +159,30 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
               </span>
             </motion.div>
 
-            {/* Body Copy */}
+            {/* Body Copy + source */}
             <motion.div
               style={{
                 position: "absolute",
                 left: "54%",
                 top: `${initialTop}%`,
                 y: copyTranslateY,
-                maxWidth: 280,
+                maxWidth: 300,
               }}
             >
-              <p
-                className="font-sans font-normal text-body1"
-                style={{ color: card.textColor }}
-              >
+              <p className="font-sans text-body1" style={{ color: card.textColor }}>
                 {card.copy}
+              </p>
+              <p
+                className="font-sans"
+                style={{
+                  color: card.textColor,
+                  opacity: 0.4,
+                  fontSize: "11px",
+                  letterSpacing: "0.04em",
+                  marginTop: "1rem",
+                }}
+              >
+                {card.source}
               </p>
             </motion.div>
           </div>

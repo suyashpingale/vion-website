@@ -39,6 +39,19 @@ const Solution: React.FC = () => {
           No batteries. It just works — clinical-grade health prediction from sweat.
           You don't need to manage it. You won't even feel it.
         </motion.p>
+
+        {/* Three risk classes */}
+        <motion.div {...fadeUp} transition={transition(0.2)} className="flex flex-wrap items-center justify-center gap-3 mt-12">
+          {[
+            { label: 'Baseline', tone: 'text-white/60 border-white/15' },
+            { label: 'Elevated Silent Drift', tone: 'text-electro border-electro/40' },
+            { label: 'Critical', tone: 'text-white border-white/30' },
+          ].map((c) => (
+            <span key={c.label} className={`rounded-full border px-4 py-1.5 text-sm ${c.tone}`}>
+              {c.label}
+            </span>
+          ))}
+        </motion.div>
       </div>
 
       {/* System-voice paragraph — bottom-left, quiet (sans) */}

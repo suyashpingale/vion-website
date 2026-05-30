@@ -95,7 +95,8 @@ const Hero: React.FC = () => {
             </motion.p>
 
             {/* CTA (mono — link) */}
-            <motion.button
+            <motion.a
+              href="#highlights"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.3, duration: 0.8 }}
@@ -105,7 +106,7 @@ const Hero: React.FC = () => {
               <span className="grid place-items-center h-6 w-6 rounded-full bg-electro/15 group-hover:bg-electro/30 transition-colors">
                 <span className="h-1.5 w-1.5 rounded-full bg-electro" />
               </span>
-            </motion.button>
+            </motion.a>
           </div>
         </div>
       </motion.div>

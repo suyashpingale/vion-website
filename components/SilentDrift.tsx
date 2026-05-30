@@ -103,8 +103,13 @@ const SilentDrift: React.FC<SilentDriftProps> = ({ scrollerRef }) => {
               <text x={SYMPTOMS_X + 10} y="36" fill="rgba(255,255,255,0.7)" fontSize="13" fontFamily={LABEL_FONT}>Symptoms appear</text>
             </motion.g>
 
+            {/* Day 40 marker — drift begins */}
+            <line x1="374" y1="120" x2="374" y2="320" stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="3 5" />
+            <text x="382" y="150" fill="rgba(255,255,255,0.4)" fontSize="11" fontFamily={LABEL_FONT}>Day 40 — drift begins</text>
+
             {/* Region labels */}
-            <text x="50" y="310" fill="rgba(255,255,255,0.45)" fontSize="12" fontFamily={LABEL_FONT} letterSpacing="0.04em">The Silent Window</text>
+            <text x="50" y="300" fill="rgba(255,255,255,0.5)" fontSize="12" fontFamily={LABEL_FONT} letterSpacing="0.04em">The Silent Window</text>
+            <text x="50" y="318" fill="rgba(70,179,235,0.85)" fontSize="11" fontFamily={LABEL_FONT} letterSpacing="0.04em">VION's territory</text>
             <motion.text x={SYMPTOMS_X + 10} y="310" fill="rgba(255,255,255,0.4)" fontSize="12" fontFamily={LABEL_FONT} letterSpacing="0.04em" style={{ opacity: symptomsOpacity }}>Clinical Detection</motion.text>
 
             {/* Axis labels */}
@@ -121,6 +126,9 @@ const SilentDrift: React.FC<SilentDriftProps> = ({ scrollerRef }) => {
           Pathology begins as metabolic drift — a slow deviation from your molecular
           baseline. By the time symptoms appear, the window for early intervention has
           narrowed. <span className="text-white/80">VION reads the drift.</span>
+        </motion.p>
+        <motion.p style={{ opacity: symptomsOpacity }} className="font-sans mt-3 text-xs text-white/25">
+          Window: 40–110 days, condition-dependent. Tabak et al. 2009.
         </motion.p>
       </div>
     </section>

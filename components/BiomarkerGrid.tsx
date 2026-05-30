@@ -13,16 +13,17 @@ interface Biomarker {
   symbol: string;
   name: string;
   target: string;
+  sensor: string;
   spec: string;
 }
 
 const BIOMARKERS: Biomarker[] = [
-  { symbol: 'NH₄⁺', name: 'Ammonium', target: 'Renal function', spec: 'Nernst slope: 55–62 mV/decade' },
-  { symbol: 'Na⁺', name: 'Sodium', target: 'Hydration & adrenal', spec: 'Nernst slope: 54–60 mV/decade' },
-  { symbol: 'Cl⁻', name: 'Chloride', target: 'Cystic fibrosis screening', spec: 'Nernst slope: 50–58 mV/decade' },
-  { symbol: 'H⁺', name: 'pH', target: 'Metabolic acidosis', spec: 'Range: 4.0–7.0' },
-  { symbol: 'Lactate', name: 'Lactate', target: 'Anaerobic threshold', spec: 'Enzymatic amperometric' },
-  { symbol: 'K⁺', name: 'Potassium', target: 'Cardiac & muscular', spec: 'Nernst slope: 52–59 mV/decade' },
+  { symbol: 'NH₄⁺', name: 'Ammonium', target: 'Chronic kidney disease — early detection', sensor: 'Potentiometric ISE', spec: 'Slope 55–62 mV/decade' },
+  { symbol: 'Na⁺', name: 'Sodium', target: 'Hypertension, hydration, adrenal function', sensor: 'Potentiometric ISE', spec: 'Slope 54–60 mV/decade' },
+  { symbol: 'Cl⁻', name: 'Chloride', target: 'Cystic fibrosis, acid–base balance', sensor: 'Potentiometric ISE', spec: 'Slope 50–58 mV/decade' },
+  { symbol: 'H⁺', name: 'pH', target: 'Metabolic acidosis, ketoacidosis', sensor: 'Potentiometric ISE', spec: 'Range 4.0–7.0' },
+  { symbol: 'Lactate', name: 'Lactate', target: 'Tissue perfusion, sepsis early signal', sensor: 'Enzymatic amperometric', spec: 'Lactate oxidase' },
+  { symbol: 'K⁺', name: 'Potassium', target: 'Cardiac arrhythmia & muscular function', sensor: 'Potentiometric ISE', spec: 'Slope 52–59 mV/decade' },
 ];
 
 const BiomarkerGrid: React.FC = () => {
@@ -59,10 +60,19 @@ const BiomarkerGrid: React.FC = () => {
             <div className="text-white/70 text-base">{b.name}</div>
             <div className="text-white/40 text-sm mb-6">{b.target}</div>
             <hr className="border-white/10 group-hover:border-white/20 transition-colors mb-5" />
-            <div className="font-sans text-xs tracking-wide text-white/30">{b.spec}</div>
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="font-sans text-xs tracking-wide text-electro/70">{b.sensor}</span>
+              <span className="font-sans text-xs tracking-wide text-white/30">{b.spec}</span>
+            </div>
           </motion.div>
         ))}
       </div>
+
+      {/* Source footnote */}
+      <p className="font-sans text-xs text-white/30 mt-8 max-w-2xl leading-relaxed">
+        Ion-selective electrodes read ionic activity at Nernstian sensitivity (~59.2 mV/decade).
+        Sweat ammonium correlates with blood urea nitrogen — Czarnowski 1992 (PMID 1396636).
+      </p>
     </section>
   );
 };
