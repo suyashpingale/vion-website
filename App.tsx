@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Hero from './components/Hero';
+import Highlights from './components/Highlights';
 import SilentDrift from './components/SilentDrift';
 import EpisodicVsContinuous from './components/EpisodicVsContinuous';
 import Solution from './components/Solution';
@@ -53,6 +54,9 @@ function App() {
       >
         {/* 1. Hero */}
         <Hero />
+
+        {/* 1.5 Highlights — fulfils the Hero CTA */}
+        <Highlights />
 
         {/* 2. The Problem — Silent Drift Timeline (scroll-driven) */}
         <SilentDrift scrollerRef={containerRef} />
