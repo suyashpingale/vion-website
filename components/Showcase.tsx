@@ -51,7 +51,7 @@ const Showcase: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <p className="font-mono text-[10px] md:text-[14px] xl:text-body2 tracking-[0.2em] text-[#090C12]/60 uppercase mb-6 md:mb-8 xl:mb-6 font-medium">
+                        <p className="eyebrow text-[#090C12]/60 mb-6 md:mb-8 xl:mb-6">
                             All Inclusive
                         </p>
                         <h2 className="font-sans text-h2 text-[#090C12] tracking-tight mb-6 md:mb-8">
@@ -100,7 +100,7 @@ const Showcase: React.FC = () => {
                         transition={{ duration: 0.6 }}
                         className="w-full md:w-[480px] xl:w-1/2 flex flex-col items-start text-left"
                     >
-                        <p className="font-mono text-[10px] md:text-[14px] xl:text-[11px] tracking-[0.2em] text-[#090C12]/60 uppercase mb-4 md:mb-6 xl:mb-4">
+                        <p className="eyebrow text-[#090C12]/60 mb-4 md:mb-6 xl:mb-4">
                             Adaptability
                         </p>
                         <h2 className="font-sans text-h2 text-[#090C12] tracking-tight mb-6 md:mb-8 xl:mb-6">
@@ -151,7 +151,7 @@ const Showcase: React.FC = () => {
                         transition={{ duration: 0.6 }}
                         className="w-full md:w-[60%] xl:w-[45%] flex flex-col items-start text-left"
                     >
-                        <p className="font-mono text-[10px] md:text-[14px] xl:text-[11px] tracking-[0.2em] text-[#F5F5F5]/60 uppercase mb-4 md:mb-6 xl:mb-4">
+                        <p className="eyebrow text-[#F5F5F5]/60 mb-4 md:mb-6 xl:mb-4">
                             The Form
                         </p>
                         <h2 className="font-sans text-h2 text-white tracking-tight mb-6 md:mb-8 xl:mb-6">

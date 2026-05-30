@@ -35,7 +35,7 @@ const Foresight: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-mono text-body2 tracking-[0.2em] text-white/70 uppercase mb-6 font-medium"
+            className="eyebrow text-white/70 mb-6"
           >
             Fluidic Intelligence
           </motion.p>
