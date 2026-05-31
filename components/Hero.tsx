@@ -4,100 +4,127 @@ import heroBandDesktop from './Assets/images-compressed/HERO-BAND.jpg';
 import heroBandTablet from './Assets/images-compressed/HERO-BAND-TABLET.jpg';
 import heroBandMobile from './Assets/images-compressed/HERO-BAND-MOBILE.jpg';
 import ResponsivePicture from './ResponsivePicture';
+
+/**
+ * SECTION 1 — Hero (design pass)
+ *
+ * Light-clinical with a subtle premium gradient backdrop (.bg-hero) plus a
+ * slowly drifting electro glow. Two columns on desktop (image left, text
+ * right); on mobile the image sits behind top-anchored, transparent text.
+ * Opacity system: bracketed words full, rest muted. Mono kept only on the CTA.
+ */
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ['start start', 'end start'],
   });
 
-  // Fade out opacity dynamically as user scrolls down
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const yShift = useTransform(scrollYProgress, [0, 0.5], [0, -40]);
 
   return (
-    <section ref={containerRef} className="relative h-[100dvh] min-h-[100dvh] w-full bg-[#F5F7F7] overflow-hidden snap-start">
-      <motion.div style={{ opacity }} className="w-full h-[100dvh] min-h-[100dvh] flex flex-col-reverse xl:flex-row">
-        {/* Left Column: Device Visual (50vw) */}
-        <div className="w-full xl:w-1/2 h-[50vh] xl:h-auto relative overflow-hidden xl:overflow-visible bg-[#F5F7F7] flex items-end xl:items-center justify-center xl:justify-start">
-          <motion.div
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="w-full h-full relative flex items-end xl:items-center justify-center xl:justify-start"
-          >
-            {/* The Ring Device */}
-            <div className="w-full h-full xl:h-auto overflow-hidden sm:overflow-visible flex items-end xl:items-center justify-center xl:justify-start">
-              <ResponsivePicture
-                desktopSrc={heroBandDesktop}
-                tabletSrc={heroBandTablet}
-                mobileSrc={heroBandMobile}
-                alt="VION Bio-Interface"
-                imgClassName="w-full max-w-[150%] sm:max-w-none sm:w-[100%] xl:w-full h-full xl:h-auto object-cover sm:object-contain object-bottom xl:object-left pointer-events-none xl:-mb-0"
-              />
-            </div>
-          </motion.div>
-        </div>
+    <section
+      ref={containerRef}
+      className="relative h-[100dvh] min-h-[100dvh] w-full bg-hero overflow-hidden snap-start"
+    >
+      {/* Drifting glow orb (premium gradient accent) */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -top-1/4 right-[-10%] h-[70vh] w-[70vh] rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(70,179,235,0.18) 0%, rgba(70,179,235,0) 70%)' }}
+        animate={{ y: [0, 30, 0], x: [0, -20, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
-        {/* Right Column: Typography (50vw) */}
-        <div className="w-full xl:w-1/2 flex-1 flex flex-col items-center xl:items-start text-center xl:text-left justify-center px-gr-1 md:px-gr-2 lg:px-gr-3 3xl:px-gr-4 pt-16 sm:pt-24 xl:pt-0 pb-0 xl:pb-0 bg-[#F5F7F7] relative z-10">
+      <motion.div style={{ opacity, y: yShift }} className="relative w-full h-full xl:flex xl:flex-row">
 
-          <div className="max-w-xl 2xl:max-w-3xl 3xl:max-w-5xl 4xl:max-w-[1200px] flex flex-col items-center xl:items-start text-center xl:text-left">
-            {/* Label */}
+        {/* Image — behind text on mobile, left column on desktop */}
+        <motion.div
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 xl:static xl:w-1/2 xl:h-auto flex items-end xl:items-center justify-center xl:justify-start"
+        >
+          <ResponsivePicture
+            desktopSrc={heroBandDesktop}
+            tabletSrc={heroBandTablet}
+            mobileSrc={heroBandMobile}
+            alt="VION Bio-Interface"
+            imgClassName="w-full h-full xl:h-auto object-cover xl:object-contain object-bottom xl:object-center pointer-events-none xl:p-10"
+          />
+        </motion.div>
+
+        {/* Typography */}
+        <div className="relative z-10 w-full xl:w-1/2 h-full flex flex-col items-center xl:items-start text-center xl:text-left justify-start xl:justify-center px-gr-1 md:px-gr-2 lg:px-gr-3 3xl:px-gr-4 pt-20 xl:pt-0 bg-transparent xl:bg-transparent">
+
+          <div className="w-full max-w-xl xl:max-w-[440px] 2xl:max-w-[520px] flex flex-col items-center xl:items-start text-center xl:text-left">
+
+            {/* Eyebrow (sans, not mono) */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="mb-8 md:mb-12 lg:mb-16 inline-block border border-slate-300 px-3 py-1.5"
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="mb-7 md:mb-10 inline-flex items-center gap-2.5"
             >
-              <p className="font-mono text-body2 tracking-[0.2em] text-slate-500 uppercase font-medium">
-                The Hypothesis
-              </p>
+              <span className="h-1.5 w-1.5 rounded-full bg-electro" />
+              <span className="eyebrow text-cosmos/50">The Hypothesis</span>
             </motion.div>
 
-            {/* Main Headline */}
-            <div className="mb-6 md:mb-8 lg:mb-10 lg:pr-12 2xl:pr-0">
-              <motion.h2
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="font-sans text-h2 2xl:text-[72px] 2xl:leading-[80px] 3xl:text-[100px] 3xl:leading-[110px] 4xl:text-[130px] 4xl:leading-[140px] text-slate-400 tracking-tight"
-              >
-                <span className="block 2xl:hidden">
-                  What if health<br />
-                  could be <span className="text-cosmos font-medium">predicted</span>,<br />
-                  not just observed?
-                </span>
-                <span className="hidden 2xl:block">
-                  What if health<br />
-                  could be <br />
-                  <span className="text-cosmos font-medium">predicted</span>,<br />
-                  not just observed?
-                </span>
-              </motion.h2>
-            </div>
-
-            {/* Sub Headline */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
-              className="font-sans text-h2 2xl:text-[72px] 2xl:leading-[80px] 3xl:text-[100px] 3xl:leading-[110px] 4xl:text-[130px] 4xl:leading-[140px] text-cosmos font-medium mb-10 md:mb-16 tracking-tight"
+            {/* Headline — opacity system */}
+            <motion.h1
+              initial={{ y: 24, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="font-sans font-medium text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.08] tracking-[-0.02em] mb-6 md:mb-7"
             >
-              VION <span className="text-slate-400 font-normal">does that...</span>
-            </motion.h2>
+              <span className="text-cosmos/30">What if health could be </span>
+              <span className="text-cosmos">predicted</span>
+              <span className="text-cosmos/30">, not just observed?</span>
+            </motion.h1>
 
-            {/* Call to Action */}
-            <motion.button
+            {/* Sub headline */}
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5, duration: 0.8 }}
-              className="group flex items-center gap-3 font-mono text-body2 uppercase tracking-[0.15em] text-slate-500 hover:text-cosmos transition-colors font-medium min-h-[44px]"
+              transition={{ delay: 1.0, duration: 0.8 }}
+              className="font-sans text-[clamp(1.25rem,2vw,1.875rem)] leading-[1.15] tracking-[-0.01em] mb-10 md:mb-12"
+            >
+              <span className="text-cosmos font-medium">VION</span>
+              <span className="text-cosmos/30"> does that.</span>
+            </motion.p>
+
+            {/* CTA (mono — link) */}
+            <motion.a
+              href="#highlights"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.3, duration: 0.8 }}
+              className="group inline-flex items-center gap-3 text-link text-[12px] text-cosmos/60 hover:text-cosmos transition-colors min-h-[44px]"
             >
               Get the highlights
-              <span className="w-2.5 h-2.5 bg-electro shadow-sm block" />
-            </motion.button>
+              <span className="grid place-items-center h-6 w-6 rounded-full bg-electro/15 group-hover:bg-electro/30 transition-colors">
+                <span className="h-1.5 w-1.5 rounded-full bg-electro" />
+              </span>
+            </motion.a>
           </div>
         </div>
+      </motion.div>
+
+      {/* Scroll hint */}
+      <motion.div
+        aria-hidden
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden xl:flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 1 }}
+      >
+        <motion.span
+          className="h-8 w-px bg-gradient-to-b from-cosmos/40 to-transparent"
+          animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.3, 0.8, 0.3] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ transformOrigin: 'top' }}
+        />
       </motion.div>
     </section>
   );

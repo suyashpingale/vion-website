@@ -10,7 +10,7 @@ import youAreBatteryMobileImg from './Assets/images-compressed/YOU-ARE-THE-BATTE
 
 const SystemLogic: React.FC = () => {
   return (
-    <div className="relative min-h-[100dvh] w-full flex items-start bg-[#082230] overflow-hidden snap-start">
+    <div className="relative min-h-[100dvh] w-full flex items-start bg-cosmos overflow-hidden snap-start">
 
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -35,7 +35,7 @@ const SystemLogic: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-mono text-body2 tracking-[0.2em] text-white/70 uppercase mb-6 md:mb-8 font-medium"
+            className="eyebrow text-white/70 mb-6 md:mb-8"
           >
             The Power
           </motion.p>

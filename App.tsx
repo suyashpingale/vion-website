@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Hero from './components/Hero';
-import HorizontalFeatures from './components/HorizontalFeatures';
+import Highlights from './components/Highlights';
+import SilentDrift from './components/SilentDrift';
+import EpisodicVsContinuous from './components/EpisodicVsContinuous';
+import Solution from './components/Solution';
+import AnatomyLayers from './components/AnatomyLayers';
 import ImpactMetrics from './components/ImpactMetrics';
-import LatencyGap from './components/LatencyGap';
-import Foresight from './components/Foresight';
-import SystemLogic from './components/SystemLogic';
-import Anatomy from './components/Anatomy';
-import EngineeredReality from './components/EngineeredReality';
+import DashboardMock from './components/DashboardMock';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
-import AnatomyLayers from './components/AnatomyLayers';
+// Editorial product-image sections (restored)
+import Foresight from './components/Foresight';
+import Anatomy from './components/Anatomy';
+import SystemLogic from './components/SystemLogic';
 import Showcase from './components/Showcase';
-import Validation from './components/Validation';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +30,7 @@ function App() {
   }, []);
 
   return (
-    <main className="w-full bg-cosmos h-screen overflow-hidden text-noise selection:bg-electro selection:text-white antialiased">
+    <main className="w-full bg-[#EEF2F5] h-screen overflow-hidden text-cosmos selection:bg-electro selection:text-white antialiased">
       {/* Navigation sits outside the pushed content to remain "intact" (fixed) */}
       <Navigation isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} scrollerRef={containerRef} />
 
@@ -52,40 +54,46 @@ function App() {
           // Optimization: Only hint will-change during the interaction to avoid persistent layer creation
           willChange: isMenuOpen ? 'transform' : 'auto'
         }}
-        className="w-full h-full relative bg-cosmos overflow-y-auto scroll-smooth overscroll-none"
+        className="w-full h-full relative bg-[#EEF2F5] overflow-y-auto scroll-smooth overscroll-none"
       >
-        {/* Sections wrapped with snap-start for scroll behavior */}
+        {/* 1. Hero */}
         <Hero />
 
+        {/* 2. Highlights — Apple-style product carousel */}
+        <Highlights />
+
+        {/* 3. The Problem — Silent Drift Timeline (scroll-driven) */}
+        <SilentDrift scrollerRef={containerRef} />
+
+        {/* 4. The Data — Impact Metrics (sticky-stack scroll) */}
         <ImpactMetrics scrollerRef={containerRef} />
 
-        {/* Section 3 */}
-        <LatencyGap />
+        {/* 5. The Solution — system statement */}
+        <Solution />
 
-        {/* Section 4: Foresight */}
+        {/* 6. Fluidic Intelligence — "Sweat is data." */}
         <Foresight />
 
-        <SystemLogic />
-
-        {/* Anatomy handles its own internal snapping */}
+        {/* 7. Non-Invasive — "No needles." */}
         <Anatomy />
 
-        {/* <section className="snap-start">
-          <ZeroMaintenance />
-        </section> */}
+        {/* 8. The Power — "You are the battery." */}
+        <SystemLogic />
 
-        {/* EngineeredReality handles its own internal snapping */}
-        <EngineeredReality />
-
-        <HorizontalFeatures />
-
-        {/* Anatomy Layers scroll spy handles its own internal snapping */}
+        {/* 9. How It Works — Anatomy Layers (Layer 1 / 2 / 3, scroll-driven) */}
         <AnatomyLayers scrollerRef={containerRef} />
 
+        {/* 10. The Difference — Episodic vs Continuous */}
+        <EpisodicVsContinuous />
+
+        {/* 11. All Inclusive → 12. Adaptability → 13. The Form
+            (three editorial slides live inside Showcase) */}
         <Showcase />
 
-        <Validation />
+        {/* 14. The Interface — Dashboard Mock */}
+        <DashboardMock />
 
+        {/* Footer */}
         <Footer />
       </motion.div>
     </main>
