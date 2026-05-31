@@ -1,91 +1,334 @@
-import React from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { Play, Pause } from 'lucide-react';
 import { fadeUp, transition, easeOutExpo } from './motion';
 
 /**
- * SECTION 1.5 — Highlights (Pattern A, light)
+ * SECTION 1.5 — Highlights (Apple "Get the highlights" carousel)
  *
- * Fulfils the Hero "Get the highlights" CTA. Six equally-weighted product
- * truths, each one icon + title + one line. Grid on desktop, horizontal
- * snap-scroll on mobile. Content sourced from the VION knowledge repository.
+ * A center-stage product carousel: one big section headline, then a track of
+ * black product cards. The active card is centered; its neighbours peek at the
+ * edges, dimmed. Each card pairs a single line of copy with a live VION
+ * device-screen visual — NO eyebrow / head / subhead per slide. A bottom pill
+ * holds a segmented progress bar + play/pause; it autoplays and supports
+ * drag, arrow keys and segment taps.
  */
 
-interface Highlight {
-  title: string;
-  note: string;
-  icon: React.ReactNode;
+interface Metric {
+  value: string;
+  unit?: string;
+  label?: string;
+  accent?: boolean;
 }
 
-const s = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.4, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+interface Slide {
+  copy: React.ReactNode;
+  glyph: string;            // small status glyph in the device header
+  status: string;           // device header label
+  hero: Metric;             // oversized hero readout
+  rows: Metric[];           // supporting metric rows
+}
 
-const HIGHLIGHTS: Highlight[] = [
+const SLIDES: Slide[] = [
   {
-    title: 'No needles',
-    note: 'Reads sweat at the skin. Nothing breaks the surface.',
-    icon: (<svg viewBox="0 0 24 24" {...s}><path d="M3 21 21 3M14 6l4 4M8 12l4 4" /><path d="M21 3l-3 1 2 2 1-3Z" /></svg>),
+    copy: (
+      <>Six analytes — Na⁺, K⁺, Cl⁻, NH₄⁺, pH and lactate — read continuously from a single skin-worn patch.</>
+    ),
+    glyph: '⬡',
+    status: 'Live panel',
+    hero: { value: '142', unit: 'mmol/L', label: 'Sodium · Na⁺', accent: true },
+    rows: [
+      { value: '4.1', unit: 'mmol/L', label: 'Potassium · K⁺' },
+      { value: '6.4', unit: 'pH', label: 'Acid–base' },
+      { value: '8.2', unit: 'mmol/L', label: 'Lactate' },
+      { value: '0.9', unit: 'mmol/L', label: 'Ammonium · NH₄⁺' },
+    ],
   },
   {
-    title: 'No batteries',
-    note: 'Self-powered by catalytic oxidation — ~972 J/day, 12× headroom.',
-    icon: (<svg viewBox="0 0 24 24" {...s}><rect x="2" y="8" width="16" height="8" rx="2" /><path d="M20 11v2M11 9l-2 6 4-2-1 4" /></svg>),
+    copy: (
+      <>Clinical-grade readings taken straight from your skin. Nothing breaks the surface — no needles, no blood.</>
+    ),
+    glyph: '◠',
+    status: 'Acquisition',
+    hero: { value: '0', unit: 'punctures', label: 'Skin barrier intact', accent: true },
+    rows: [
+      { value: 'Sweat', label: 'Sampling medium' },
+      { value: 'Passive', label: 'Microfluidic mesh' },
+      { value: 'Continuous', label: 'Surface contact' },
+    ],
   },
   {
-    title: 'No clinic visits',
-    note: 'At-home wearable operation. Zero appointments.',
-    icon: (<svg viewBox="0 0 24 24" {...s}><path d="M3 21V8l9-5 9 5v13" /><path d="M9 21v-6h6v6M12 7v0" /></svg>),
+    copy: (
+      <>Self-powered by your own biochemistry — roughly 972 joules a day, with 12× the headroom it needs.</>
+    ),
+    glyph: '⚡',
+    status: 'Power',
+    hero: { value: '972', unit: 'J / day', label: 'Harvested', accent: true },
+    rows: [
+      { value: '12×', label: 'Energy headroom' },
+      { value: '100k+', label: 'Charge cycles' },
+      { value: '0', label: 'Batteries · charging' },
+    ],
   },
   {
-    title: '4-hour sessions',
-    note: 'A single-use cartridge runs one longitudinal window.',
-    icon: (<svg viewBox="0 0 24 24" {...s}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>),
+    copy: (
+      <>One cartridge runs a four-hour longitudinal window — enough to watch your metabolism move, not just snapshot it.</>
+    ),
+    glyph: '◷',
+    status: 'Session',
+    hero: { value: '03:47', unit: 'elapsed', label: 'Longitudinal window', accent: true },
+    rows: [
+      { value: '4 h', label: 'Cartridge runtime' },
+      { value: '1 Hz', label: 'Sample rate' },
+      { value: 'Drift', label: 'Detection mode' },
+    ],
   },
   {
-    title: 'Six analytes',
-    note: 'Na⁺ · K⁺ · Cl⁻ · NH₄⁺ · pH · Lactate from one surface.',
-    icon: (<svg viewBox="0 0 24 24" {...s}><path d="M12 3l7 4v10l-7 4-7-4V7l7-4Z" /><path d="M12 8v8M8 10v4M16 10v4" /></svg>),
+    copy: (
+      <>A recall-tuned classifier turns raw signal into a clear risk class — calibrated to an F-beta of 0.94.</>
+    ),
+    glyph: '◈',
+    status: 'Stratification',
+    hero: { value: 'Elevated', unit: '', label: 'Silent drift detected', accent: true },
+    rows: [
+      { value: '0.94', label: 'F-beta · recall-tuned' },
+      { value: '3', label: 'Risk classes' },
+      { value: 'CatBoost', label: 'Model' },
+    ],
   },
   {
-    title: 'ML-powered risk',
-    note: 'CatBoost classifier, recall-optimized. F-beta 0.94.',
-    icon: (<svg viewBox="0 0 24 24" {...s}><rect x="5" y="5" width="14" height="14" rx="2" /><path d="M9 9h6v6H9zM5 10h-2M5 14H3M21 10h-2M21 14h-2M10 5V3M14 5V3M10 21v-2M14 21v-2" /></svg>),
+    copy: (
+      <>Your lab comes to you. Zero appointments, zero waiting rooms — the diagnostic runs wherever you are.</>
+    ),
+    glyph: '⌂',
+    status: 'At home',
+    hero: { value: '0', unit: 'visits', label: 'Clinic appointments', accent: true },
+    rows: [
+      { value: 'Wear', label: 'Apply & forget' },
+      { value: 'Sync', label: 'Results to phone' },
+      { value: 'Anywhere', label: 'No facility needed' },
+    ],
   },
 ];
 
-const Highlights: React.FC = () => {
-  return (
-    <section id="highlights" className="w-full bg-clinical snap-start py-24 md:py-32 px-6 md:px-12 xl:px-24">
-      <motion.div {...fadeUp} transition={transition(0)} className="flex items-center gap-2.5 mb-6">
-        <span className="h-1.5 w-1.5 rounded-full bg-electro" />
-        <span className="eyebrow text-cosmos/45">The Highlights</span>
-      </motion.div>
+const AUTOPLAY_MS = 6000;
+const GAP = 24;
 
+/* ── Device screen — the live VION readout that swaps per slide ───────────── */
+const DeviceScreen: React.FC<{ slide: Slide }> = ({ slide }) => (
+  <div className="relative w-full max-w-[300px] aspect-[9/13] rounded-[2.25rem] bg-gradient-to-b from-[#0c1219] to-[#05080c] ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] overflow-hidden">
+    {/* subtle electro glow */}
+    <div className="pointer-events-none absolute -top-1/4 left-1/2 h-1/2 w-3/4 -translate-x-1/2 rounded-full bg-electro/20 blur-3xl" />
+
+    <div className="relative flex h-full flex-col px-6 py-6">
+      {/* header */}
+      <div className="flex items-center justify-between">
+        <span className="grid h-7 w-7 place-items-center rounded-full bg-electro/15 text-electro text-sm">
+          {slide.glyph}
+        </span>
+        <span className="font-sans text-[11px] uppercase tracking-[0.18em] text-white/40">
+          {slide.status}
+        </span>
+      </div>
+
+      {/* hero metric */}
+      <div className="mt-7">
+        <div className="flex items-baseline gap-2">
+          <span
+            className={`font-sans font-light leading-none tracking-tight tabular-nums ${
+              slide.hero.accent ? 'text-electro' : 'text-white'
+            } text-[clamp(2.5rem,6vw,3.5rem)]`}
+          >
+            {slide.hero.value}
+          </span>
+          {slide.hero.unit ? (
+            <span className="font-sans text-sm text-white/40">{slide.hero.unit}</span>
+          ) : null}
+        </div>
+        {slide.hero.label ? (
+          <p className="mt-1.5 font-sans text-[13px] text-white/45">{slide.hero.label}</p>
+        ) : null}
+      </div>
+
+      {/* supporting rows */}
+      <div className="mt-auto flex flex-col gap-px overflow-hidden rounded-xl bg-white/[0.06]">
+        {slide.rows.map((r) => (
+          <div
+            key={r.label}
+            className="flex items-baseline justify-between gap-3 bg-[#070b10] px-3.5 py-2.5"
+          >
+            <span className="font-sans text-[12px] text-white/45">{r.label}</span>
+            <span className="font-sans tabular-nums text-sm text-white/85">
+              {r.value}
+              {r.unit ? <span className="ml-1 text-white/35 text-[11px]">{r.unit}</span> : null}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* page dots */}
+      <div className="mt-4 flex justify-center gap-1.5">
+        {[0, 1, 2].map((d) => (
+          <span
+            key={d}
+            className={`h-1 w-1 rounded-full ${d === 1 ? 'bg-white/70' : 'bg-white/25'}`}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const Highlights: React.FC = () => {
+  const [active, setActive] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [progress, setProgress] = useState(0); // 0..1 for the active segment
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [vw, setVw] = useState(0);
+
+  const last = SLIDES.length - 1;
+  const cardW = vw ? Math.min(880, vw * (vw < 640 ? 0.86 : 0.82)) : 0;
+  const trackX = vw ? (vw - cardW) / 2 - active * (cardW + GAP) : 0;
+
+  // Measure viewport
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const measure = () => setVw(el.clientWidth);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const goTo = useCallback((i: number) => {
+    setActive(Math.max(0, Math.min(last, i)));
+    setProgress(0);
+  }, [last]);
+
+  const next = useCallback(() => {
+    setActive((a) => (a + 1) % SLIDES.length);
+    setProgress(0);
+  }, []);
+
+  // Autoplay — drive the active segment, advance on completion
+  useEffect(() => {
+    if (!playing) return;
+    const step = 50;
+    const id = setInterval(() => {
+      setProgress((p) => {
+        const np = p + step / AUTOPLAY_MS;
+        if (np >= 1) {
+          next();
+          return 0;
+        }
+        return np;
+      });
+    }, step);
+    return () => clearInterval(id);
+  }, [playing, next]);
+
+  // Keyboard
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') goTo(active + 1);
+      if (e.key === 'ArrowLeft') goTo(active - 1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [active, goTo]);
+
+  return (
+    <section id="highlights" className="w-full bg-clinical snap-start py-20 md:py-28 overflow-hidden">
+      {/* Section headline — the one heading; slides carry no kicker */}
       <motion.h2
         {...fadeUp}
-        transition={transition(0.05)}
-        className="font-sans font-medium tracking-[-0.02em] text-3xl md:text-5xl xl:text-6xl mb-14 md:mb-20 max-w-3xl leading-[1.08]"
+        transition={transition(0)}
+        className="px-6 md:px-12 xl:px-24 font-sans font-medium tracking-[-0.02em] text-cosmos text-[clamp(2.25rem,5vw,4rem)] leading-[1.02] mb-12 md:mb-16"
       >
-        <span className="text-cosmos/25">A clinical lab, reduced to </span>
-        <span className="text-cosmos">six truths.</span>
+        The highlights.
       </motion.h2>
 
-      {/* Grid on md+, horizontal snap-scroll on mobile */}
-      <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-2 md:pb-0 [scrollbar-width:none]">
-        {HIGHLIGHTS.map((h, i) => (
-          <motion.div
-            key={h.title}
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, ease: easeOutExpo, delay: (i % 3) * 0.06 }}
-            className="group shrink-0 w-[78vw] sm:w-[60vw] md:w-auto snap-start rounded-2xl border border-cosmos/10 bg-white/50 p-7 transition-colors duration-300 hover:border-electro/40 hover:bg-white"
+      {/* Carousel viewport */}
+      <div ref={viewportRef} className="relative w-full">
+        <motion.div
+          className="flex items-stretch"
+          style={{ gap: GAP }}
+          animate={{ x: trackX }}
+          transition={{ duration: 0.7, ease: easeOutExpo }}
+          drag="x"
+          dragConstraints={{ left: trackX, right: trackX }}
+          dragElastic={0.12}
+          onDragEnd={(_, info) => {
+            if (info.offset.x < -80) goTo(active + 1);
+            else if (info.offset.x > 80) goTo(active - 1);
+          }}
+        >
+          {SLIDES.map((slide, i) => {
+            const isActive = i === active;
+            return (
+              <motion.div
+                key={i}
+                className="shrink-0 cursor-pointer"
+                style={{ width: cardW || '82vw' }}
+                animate={{ opacity: isActive ? 1 : 0.35, scale: isActive ? 1 : 0.97 }}
+                transition={{ duration: 0.7, ease: easeOutExpo }}
+                onClick={() => !isActive && goTo(i)}
+              >
+                <div className="relative h-full overflow-hidden rounded-[1.75rem] bg-[#05080c] ring-1 ring-white/5">
+                  <div className="grid h-full grid-cols-1 items-center gap-8 p-8 md:grid-cols-2 md:gap-6 md:p-12 lg:p-16">
+                    {/* Copy — no eyebrow, no subhead. Just the line. */}
+                    <p className="order-2 md:order-1 font-sans font-medium text-white text-[clamp(1.5rem,2.4vw,2.25rem)] leading-[1.18] tracking-[-0.01em] max-w-[460px]">
+                      {slide.copy}
+                    </p>
+                    {/* Device visual */}
+                    <div className="order-1 md:order-2 flex justify-center md:justify-end">
+                      <DeviceScreen slide={slide} />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+
+      {/* Control pill — segmented progress + play/pause */}
+      <div className="mt-10 flex justify-center px-6">
+        <div className="flex items-center gap-4 rounded-full bg-cosmos/[0.06] px-5 py-2.5 ring-1 ring-cosmos/10">
+          <div className="flex items-center gap-1.5">
+            {SLIDES.map((_, i) => {
+              const fill = i < active ? 1 : i === active ? progress : 0;
+              return (
+                <button
+                  key={i}
+                  aria-label={`Go to slide ${i + 1}`}
+                  onClick={() => goTo(i)}
+                  className="group py-1.5"
+                >
+                  <span
+                    className={`block h-1 overflow-hidden rounded-full bg-cosmos/15 transition-all duration-300 ${
+                      i === active ? 'w-9' : 'w-1.5 group-hover:w-3'
+                    }`}
+                  >
+                    <span
+                      className="block h-full rounded-full bg-cosmos"
+                      style={{ width: `${fill * 100}%` }}
+                    />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            aria-label={playing ? 'Pause' : 'Play'}
+            onClick={() => setPlaying((p) => !p)}
+            className="grid h-7 w-7 place-items-center rounded-full text-cosmos/70 transition-colors hover:bg-cosmos/10 hover:text-cosmos"
           >
-            <div className="mb-6 grid h-11 w-11 place-items-center rounded-xl bg-electro/10 text-electro transition-colors group-hover:bg-electro/20">
-              <span className="h-5 w-5 block">{h.icon}</span>
-            </div>
-            <h3 className="font-sans text-lg font-medium text-cosmos mb-2">{h.title}</h3>
-            <p className="font-sans text-sm leading-relaxed text-cosmos/55">{h.note}</p>
-          </motion.div>
-        ))}
+            {playing ? <Pause size={13} fill="currentColor" /> : <Play size={13} fill="currentColor" />}
+          </button>
+        </div>
       </div>
     </section>
   );
