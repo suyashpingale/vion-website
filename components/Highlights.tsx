@@ -114,39 +114,40 @@ const SLIDES: Slide[] = [
 const AUTOPLAY_MS = 6000;
 const GAP = 24;
 
-/* ── Device screen — the live VION readout that swaps per slide ───────────── */
+/* ── Device screen — the live VION readout that swaps per slide.
+   The device itself stays dark (it's a screen), but the surrounding
+   card surface is light. ──────────────────────────────────────────── */
 const DeviceScreen: React.FC<{ slide: Slide }> = ({ slide }) => (
-  <div className="relative w-full max-w-[300px] aspect-[9/13] rounded-[2.25rem] bg-gradient-to-b from-[#0c1219] to-[#05080c] ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] overflow-hidden">
-    {/* subtle electro glow */}
+  <div className="relative w-full max-w-[280px] aspect-[9/13] rounded-[2rem] bg-gradient-to-b from-[#0d1320] to-[#06090f] ring-1 ring-cosmos/15 shadow-[0_24px_60px_-22px_rgba(8,34,48,0.45)] overflow-hidden">
     <div className="pointer-events-none absolute -top-1/4 left-1/2 h-1/2 w-3/4 -translate-x-1/2 rounded-full bg-electro/20 blur-3xl" />
 
-    <div className="relative flex h-full flex-col px-6 py-6">
+    <div className="relative flex h-full flex-col px-5 py-5">
       {/* header */}
       <div className="flex items-center justify-between">
         <span className="grid h-7 w-7 place-items-center rounded-full bg-electro/15 text-electro text-sm">
           {slide.glyph}
         </span>
-        <span className="font-sans text-[11px] uppercase tracking-[0.18em] text-white/40">
+        <span className="font-sans text-[10px] uppercase tracking-[0.18em] text-white/40">
           {slide.status}
         </span>
       </div>
 
       {/* hero metric */}
-      <div className="mt-7">
+      <div className="mt-6">
         <div className="flex items-baseline gap-2">
           <span
             className={`font-sans font-light leading-none tracking-tight tabular-nums ${
               slide.hero.accent ? 'text-electro' : 'text-white'
-            } text-[clamp(2.5rem,6vw,3.5rem)]`}
+            } text-[clamp(2.25rem,5vw,3rem)]`}
           >
             {slide.hero.value}
           </span>
           {slide.hero.unit ? (
-            <span className="font-sans text-sm text-white/40">{slide.hero.unit}</span>
+            <span className="font-sans text-xs text-white/40">{slide.hero.unit}</span>
           ) : null}
         </div>
         {slide.hero.label ? (
-          <p className="mt-1.5 font-sans text-[13px] text-white/45">{slide.hero.label}</p>
+          <p className="mt-1.5 font-sans text-[12px] text-white/45">{slide.hero.label}</p>
         ) : null}
       </div>
 
@@ -155,19 +156,19 @@ const DeviceScreen: React.FC<{ slide: Slide }> = ({ slide }) => (
         {slide.rows.map((r) => (
           <div
             key={r.label}
-            className="flex items-baseline justify-between gap-3 bg-[#070b10] px-3.5 py-2.5"
+            className="flex items-baseline justify-between gap-3 bg-[#070b10] px-3 py-2"
           >
-            <span className="font-sans text-[12px] text-white/45">{r.label}</span>
-            <span className="font-sans tabular-nums text-sm text-white/85">
+            <span className="font-sans text-[11px] text-white/45">{r.label}</span>
+            <span className="font-sans tabular-nums text-[13px] text-white/85">
               {r.value}
-              {r.unit ? <span className="ml-1 text-white/35 text-[11px]">{r.unit}</span> : null}
+              {r.unit ? <span className="ml-1 text-white/35 text-[10px]">{r.unit}</span> : null}
             </span>
           </div>
         ))}
       </div>
 
       {/* page dots */}
-      <div className="mt-4 flex justify-center gap-1.5">
+      <div className="mt-3 flex justify-center gap-1.5">
         {[0, 1, 2].map((d) => (
           <span
             key={d}
@@ -275,10 +276,10 @@ const Highlights: React.FC = () => {
                 transition={{ duration: 0.7, ease: easeOutExpo }}
                 onClick={() => !isActive && goTo(i)}
               >
-                <div className="relative h-full overflow-hidden rounded-[1.75rem] bg-[#05080c] ring-1 ring-white/5">
+                <div className="relative h-full overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-cosmos/8 shadow-[0_18px_50px_-30px_rgba(8,34,48,0.25)]">
                   <div className="grid h-full grid-cols-1 items-center gap-8 p-8 md:grid-cols-2 md:gap-6 md:p-12 lg:p-16">
                     {/* Copy — no eyebrow, no subhead. Just the line. */}
-                    <p className="order-2 md:order-1 font-sans font-medium text-white text-[clamp(1.5rem,2.4vw,2.25rem)] leading-[1.18] tracking-[-0.01em] max-w-[460px]">
+                    <p className="order-2 md:order-1 font-sans font-medium text-cosmos text-[clamp(1.5rem,2.4vw,2.25rem)] leading-[1.18] tracking-[-0.01em] max-w-[460px]">
                       {slide.copy}
                     </p>
                     {/* Device visual */}
