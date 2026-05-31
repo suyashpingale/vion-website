@@ -69,7 +69,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
   }`;
 
   return (
-    <section ref={containerRef} className="snap-start bg-[#F5F7F7] w-full relative h-[300dvh] z-10 overscroll-none">
+    <section ref={containerRef} className="snap-start bg-noise w-full relative h-[300dvh] z-10 overscroll-none">
 
       {/* Sticky Viewport */}
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
@@ -131,10 +131,10 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             <p className="eyebrow text-cosmos/45 mb-5">
               Layer One
             </p>
-            <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
+            <h2 className="font-sans font-medium text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-[-0.02em] mb-5">
               The Logic.
             </h2>
-            <p className="font-sans font-light text-body1 text-cosmos/40 leading-[1.5]">
+            <p className="font-sans text-body1 text-cosmos/55 leading-[1.5]">
               CatBoost Integration. Recall-optimized machine learning model (F-beta 0.94).
               Calibrated for risk stratification and early detection of physiological drift
               across biomarkers.
@@ -150,10 +150,10 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             <p className="eyebrow text-cosmos/45 mb-5">
               Layer Two
             </p>
-            <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
+            <h2 className="font-sans font-medium text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-[-0.02em] mb-5">
               The Power.
             </h2>
-            <p className="font-sans font-light text-body1 text-cosmos/40 leading-[1.5]">
+            <p className="font-sans text-body1 text-cosmos/55 leading-[1.5]">
               Catalytic Oxidation Layer. Converts sweat lactate into electrical energy,
               stored via a Supercapacitor Array. No charging. Self-sustained.
             </p>
@@ -168,10 +168,10 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             <p className="eyebrow text-cosmos/45 mb-5">
               Layer Three
             </p>
-            <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
+            <h2 className="font-sans font-medium text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-[-0.02em] mb-5">
               The Transport.
             </h2>
-            <p className="font-sans font-light text-body1 text-cosmos/40 leading-[1.5]">
+            <p className="font-sans text-body1 text-cosmos/55 leading-[1.5]">
               Directed Microfluidics. Hydrophilic polyester mesh with PDMS hydrophobic
               barriers. Sweat is channeled, not absorbed. Result: Zero lateral diffusion.
             </p>
