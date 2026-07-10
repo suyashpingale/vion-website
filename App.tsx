@@ -6,7 +6,6 @@ import SilentDrift from './components/SilentDrift';
 import EpisodicVsContinuous from './components/EpisodicVsContinuous';
 import Solution from './components/Solution';
 import AnatomyLayers from './components/AnatomyLayers';
-import BiomarkerGrid from './components/BiomarkerGrid';
 import ImpactMetrics from './components/ImpactMetrics';
 import DashboardMock from './components/DashboardMock';
 import Footer from './components/Footer';
@@ -60,41 +59,41 @@ function App() {
         {/* 1. Hero */}
         <Hero />
 
-        {/* 1.5 Highlights — fulfils the Hero CTA */}
+        {/* 2. Highlights — Apple-style product carousel */}
         <Highlights />
 
-        {/* 2. The Problem — Silent Drift Timeline (scroll-driven) */}
+        {/* 3. The Problem — Silent Drift Timeline (scroll-driven) */}
         <SilentDrift scrollerRef={containerRef} />
 
-        {/* 3. Why sweat — editorial: "Sweat is data." */}
-        <Foresight />
-
-        {/* 4. Episodic vs Continuous */}
-        <EpisodicVsContinuous />
-
-        {/* 5. Solution Statement */}
-        <Solution />
-
-        {/* 6. Anatomy Layers / How It Works (handles its own scroll spy) */}
-        <AnatomyLayers scrollerRef={containerRef} />
-
-        {/* 7. Editorial product story: No needles → You are the battery */}
-        <Anatomy />
-        <SystemLogic />
-
-        {/* 8. What We Measure — Biomarker Grid */}
-        <BiomarkerGrid />
-
-        {/* 9. Impact Metrics / Stats (sticky-stack scroll) */}
+        {/* 4. The Data — Impact Metrics (sticky-stack scroll) */}
         <ImpactMetrics scrollerRef={containerRef} />
 
-        {/* 10. Editorial form story: For everyone → Selective Shield → Invisible */}
+        {/* 5. The Solution — system statement */}
+        <Solution />
+
+        {/* 6. Fluidic Intelligence — "Sweat is data." */}
+        <Foresight />
+
+        {/* 7. Non-Invasive — "No needles." */}
+        <Anatomy />
+
+        {/* 8. The Power — "You are the battery." */}
+        <SystemLogic />
+
+        {/* 9. How It Works — Anatomy Layers (Layer 1 / 2 / 3, scroll-driven) */}
+        <AnatomyLayers scrollerRef={containerRef} />
+
+        {/* 10. The Difference — Episodic vs Continuous */}
+        <EpisodicVsContinuous />
+
+        {/* 11. All Inclusive → 12. Adaptability → 13. The Form
+            (three editorial slides live inside Showcase) */}
         <Showcase />
 
-        {/* 11. Dashboard Mock */}
+        {/* 14. The Interface — Dashboard Mock */}
         <DashboardMock />
 
-        {/* 12. Footer */}
+        {/* Footer */}
         <Footer />
       </motion.div>
     </main>
