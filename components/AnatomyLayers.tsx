@@ -139,6 +139,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
               Calibrated for risk stratification and early detection of physiological drift
               across biomarkers.
             </p>
+            <p className="font-sans text-sm text-electro/80 mt-4 tracking-wide">F-beta 0.94 · 3 risk classes</p>
           </motion.div>
 
           {/* Text 2: The Power */}
@@ -156,6 +157,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
               Catalytic Oxidation Layer. Converts sweat lactate into electrical energy,
               stored via a Supercapacitor Array. No charging. Self-sustained.
             </p>
+            <p className="font-sans text-sm text-electro/80 mt-4 tracking-wide">~972 J/day · 12× headroom · 100,000+ cycles</p>
           </motion.div>
 
           {/* Text 3: The Transport */}
@@ -173,6 +175,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
               Directed Microfluidics. Hydrophilic polyester mesh with PDMS hydrophobic
               barriers. Sweat is channeled, not absorbed. Result: Zero lateral diffusion.
             </p>
+            <p className="font-sans text-sm text-electro/80 mt-4 tracking-wide">Janus membrane · pilocarpine iontophoresis</p>
           </motion.div>
         </div>
 
