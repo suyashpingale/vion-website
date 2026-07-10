@@ -10,7 +10,7 @@ import youAreBatteryMobileImg from './Assets/images-compressed/YOU-ARE-THE-BATTE
 
 const SystemLogic: React.FC = () => {
   return (
-    <div className="relative min-h-[100dvh] w-full flex items-start bg-[#082230] overflow-hidden snap-start">
+    <div className="relative min-h-[100dvh] w-full flex items-start bg-cosmos overflow-hidden snap-start">
 
       {/* Background Image */}
       <div className="absolute inset-0 z-0">

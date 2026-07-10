@@ -30,7 +30,7 @@ const Showcase: React.FC = () => {
     return (
         <>
             {/* 1. For everyone */}
-            <section className="bg-[#082230] min-h-[100dvh] w-full relative flex items-center justify-center snap-start overflow-hidden">
+            <section className="bg-cosmos min-h-[100dvh] w-full relative flex items-center justify-center snap-start overflow-hidden">
                 {/* Full Background Image */}
                 <div className="absolute inset-0 z-0 h-full w-full">
                     <ResponsivePicture
@@ -78,7 +78,7 @@ const Showcase: React.FC = () => {
             </section>
 
             {/* 2. Selective Shield */}
-            <section className="bg-[#082230] min-h-[100dvh] w-full relative flex items-start pt-[10dvh] md:pt-[20vh] xl:pt-[28vh] snap-start overflow-hidden">
+            <section className="bg-cosmos min-h-[100dvh] w-full relative flex items-start pt-[10dvh] md:pt-[20vh] xl:pt-[28vh] snap-start overflow-hidden">
                 {/* Full Background Image */}
                 <div className="absolute inset-0 z-0 h-full w-full">
                     <ResponsivePicture
@@ -129,7 +129,7 @@ const Showcase: React.FC = () => {
             </section>
 
             {/* 3. Invisible */}
-            <section className="bg-[#082230] min-h-[100dvh] w-full relative flex items-start pt-[8vh] md:pt-[10vh] lg:pt-[12vh] snap-start overflow-hidden">
+            <section className="bg-cosmos min-h-[100dvh] w-full relative flex items-start pt-[8vh] md:pt-[10vh] lg:pt-[12vh] snap-start overflow-hidden">
                 {/* Full Background Image */}
                 <div className="absolute inset-0 z-0 h-full w-full">
                     <ResponsivePicture

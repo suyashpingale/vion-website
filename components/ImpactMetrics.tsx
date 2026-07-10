@@ -143,12 +143,8 @@ export default function ImpactMetrics({ scrollerRef }: ImpactMetricsProps) {
                 {card.stat}
               </span>
               <span
+                className="eyebrow"
                 style={{
-                  fontFamily: "'Switzer', 'Inter', sans-serif",
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.18em",
-                  fontWeight: 500,
                   color: card.textColor,
                   opacity: 0.55,
                   display: "block",

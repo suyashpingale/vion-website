@@ -10,7 +10,7 @@ import sweatIsDataMobileImg from './Assets/images-compressed/SWEAT-IS-DATA-MOBIL
 
 const Foresight: React.FC = () => {
   return (
-    <section className="relative min-h-[100dvh] w-full flex items-center bg-[#082230] overflow-hidden snap-start">
+    <section className="relative min-h-[100dvh] w-full flex items-center bg-cosmos overflow-hidden snap-start">
 
       {/* Background Image */}
       <div className="absolute inset-0 z-0">

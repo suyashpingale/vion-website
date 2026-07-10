@@ -12,7 +12,7 @@ import bgImageMobile from './Assets/images-compressed/NO-NEEDLES-MOBILE.jpg';
 
 const Anatomy: React.FC = () => {
   return (
-    <section className="relative min-h-[100dvh] w-full bg-[#082230] overflow-hidden snap-start flex items-start pt-[18vh] lg:pt-[22vh]">
+    <section className="relative min-h-[100dvh] w-full bg-cosmos overflow-hidden snap-start flex items-start pt-[18vh] lg:pt-[22vh]">
 
       {/* Background Image */}
       <div className="absolute inset-0 z-0 h-full w-full">
