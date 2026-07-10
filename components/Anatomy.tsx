@@ -38,7 +38,7 @@ const Anatomy: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-mono text-[10px] md:text-body2 xl:text-[11px] tracking-[0.2em] text-[#E5E5E5] uppercase mb-4"
+            className="eyebrow text-[#E5E5E5] mb-4"
           >
             Non-Invasive
           </motion.p>

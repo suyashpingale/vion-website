@@ -11,6 +11,11 @@ import ImpactMetrics from './components/ImpactMetrics';
 import DashboardMock from './components/DashboardMock';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
+// Editorial product-image sections (restored)
+import Foresight from './components/Foresight';
+import Anatomy from './components/Anatomy';
+import SystemLogic from './components/SystemLogic';
+import Showcase from './components/Showcase';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,25 +66,35 @@ function App() {
         {/* 2. The Problem — Silent Drift Timeline (scroll-driven) */}
         <SilentDrift scrollerRef={containerRef} />
 
-        {/* 3. Episodic vs Continuous */}
+        {/* 3. Why sweat — editorial: "Sweat is data." */}
+        <Foresight />
+
+        {/* 4. Episodic vs Continuous */}
         <EpisodicVsContinuous />
 
-        {/* 4. Solution Statement */}
+        {/* 5. Solution Statement */}
         <Solution />
 
-        {/* 5. Anatomy Layers / How It Works (handles its own scroll spy) */}
+        {/* 6. Anatomy Layers / How It Works (handles its own scroll spy) */}
         <AnatomyLayers scrollerRef={containerRef} />
 
-        {/* 6. What We Measure — Biomarker Grid */}
+        {/* 7. Editorial product story: No needles → You are the battery */}
+        <Anatomy />
+        <SystemLogic />
+
+        {/* 8. What We Measure — Biomarker Grid */}
         <BiomarkerGrid />
 
-        {/* 7. Impact Metrics / Stats (sticky-stack scroll) */}
+        {/* 9. Impact Metrics / Stats (sticky-stack scroll) */}
         <ImpactMetrics scrollerRef={containerRef} />
 
-        {/* 8. Dashboard Mock */}
+        {/* 10. Editorial form story: For everyone → Selective Shield → Invisible */}
+        <Showcase />
+
+        {/* 11. Dashboard Mock */}
         <DashboardMock />
 
-        {/* 9. Footer */}
+        {/* 12. Footer */}
         <Footer />
       </motion.div>
     </main>
