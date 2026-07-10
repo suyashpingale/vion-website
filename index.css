@@ -227,7 +227,72 @@
       line-height: 28px;
     }
   }
+
+  /* ─────────────────────────────────────────────────────────────
+     VION DESIGN SYSTEM v2 — shared light-clinical foundation
+     ───────────────────────────────────────────────────────────── */
+
+  /* Eyebrow label — Switzer (NOT mono). Used for all section kickers. */
+  .eyebrow {
+    font-family: 'Switzer', 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+  }
+  @media (min-width: 768px) {
+    .eyebrow { font-size: 12px; }
+  }
+
+  /* Link / nav style — the ONE place IBM Plex Mono is retained. */
+  .text-link {
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* Light-clinical background: soft off-white with a faint electro glow. */
+  .bg-clinical {
+    background-color: #F5F7F7;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgba(70, 179, 235, 0.10) 0%, rgba(70, 179, 235, 0) 55%),
+      linear-gradient(180deg, #FAFBFC 0%, #EEF2F5 100%);
+  }
+
+  /* Dark emphasis background: deep navy with a radial electro glow (Eight Sleep). */
+  .bg-emphasis {
+    background-color: #060A10;
+    background-image:
+      radial-gradient(90% 70% at 50% 0%, rgba(70, 179, 235, 0.18) 0%, rgba(70, 179, 235, 0) 60%),
+      linear-gradient(180deg, #0A111B 0%, #060A10 100%);
+  }
+
+  /* Hero gradient backdrop — subtle, premium (Shilp Sutra style). */
+  .bg-hero {
+    background-color: #F5F7F7;
+    background-image:
+      radial-gradient(80% 60% at 75% 30%, rgba(70, 179, 235, 0.14) 0%, rgba(70, 179, 235, 0) 60%),
+      radial-gradient(70% 70% at 15% 80%, rgba(8, 34, 48, 0.06) 0%, rgba(8, 34, 48, 0) 55%),
+      linear-gradient(160deg, #FBFCFD 0%, #EAF0F4 100%);
+  }
+
+  /* Hairline divider tuned for light surfaces. */
+  .rule-soft { border-color: rgba(8, 34, 48, 0.12); }
 }
+
+/* Accessibility — respect reduced-motion (keep fades, drop large movement). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 
 @theme inline {
   --breakpoint-4xl: 2560px;

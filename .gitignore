@@ -40,3 +40,6 @@ Thumbs.db
 # Misc
 *.local
 coverage/
+
+# Agent tooling (installed locally via `npx skills add`)
+.agents/

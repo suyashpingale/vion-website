@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   return (
-    <main className="w-full bg-cosmos h-screen overflow-hidden text-noise selection:bg-electro selection:text-white antialiased">
+    <main className="w-full bg-[#EEF2F5] h-screen overflow-hidden text-cosmos selection:bg-electro selection:text-white antialiased">
       {/* Navigation sits outside the pushed content to remain "intact" (fixed) */}
       <Navigation isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} scrollerRef={containerRef} />
 
@@ -49,7 +49,7 @@ function App() {
           // Optimization: Only hint will-change during the interaction to avoid persistent layer creation
           willChange: isMenuOpen ? 'transform' : 'auto'
         }}
-        className="w-full h-full relative bg-cosmos overflow-y-auto scroll-smooth overscroll-none"
+        className="w-full h-full relative bg-[#EEF2F5] overflow-y-auto scroll-smooth overscroll-none"
       >
         {/* 1. Hero */}
         <Hero />

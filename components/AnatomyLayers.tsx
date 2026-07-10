@@ -128,7 +128,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             className={textBlockClasses}
             style={{ opacity: text1Opacity }}
           >
-            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/40 uppercase mb-5 font-medium">
+            <p className="eyebrow text-cosmos/45 mb-5">
               Layer One
             </p>
             <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
@@ -146,7 +146,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             className={textBlockClasses}
             style={{ opacity: text2Opacity }}
           >
-            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/40 uppercase mb-5 font-medium">
+            <p className="eyebrow text-cosmos/45 mb-5">
               Layer Two
             </p>
             <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
@@ -163,7 +163,7 @@ const AnatomyLayers: React.FC<AnatomyLayersProps> = ({ scrollerRef }) => {
             className={textBlockClasses}
             style={{ opacity: text3Opacity }}
           >
-            <p className="font-mono text-[10px] md:text-body2 tracking-[0.2em] text-cosmos/40 uppercase mb-5 font-medium">
+            <p className="eyebrow text-cosmos/45 mb-5">
               Layer Three
             </p>
             <h2 className="font-sans font-light text-[clamp(1.75rem,3.5vw,3.75rem)] text-cosmos tracking-tight mb-5">
